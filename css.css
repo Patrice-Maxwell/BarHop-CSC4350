@@ -1,0 +1,96 @@
+body{
+  font-family: "Arial";
+  text-align: center;
+  margin: 2%;
+}
+
+fieldset{
+
+}
+
+legend{
+  display: flex;
+  right: 3;
+}
+
+label{
+  font-weight: bold;
+  margin: 1%;
+}
+
+input{
+  margin: 1%;
+}
+
+.requestBox{
+  float: right;
+  margin-top: 5%;
+}
+
+.calendar{
+  width: 65%;
+  float: left;
+  margin-top: 8%;
+}
+
+.inCalendar{
+  border: black solid;
+  height: 60%;
+}
+
+.chatbox{
+  margin-top: 5%;
+  border: black solid;
+  width: 25%;
+  height: 48%;
+  float: right;
+}
+
+.navigation{
+  float: right;
+  margin-right: 3%;
+  margin-top: 10%;
+}
+
+.navigation ul{
+  list-style-type: none;
+}
+
+.navigation li{
+  border: solid green;
+  margin: 3%;
+  background-color: green;
+  color: white;
+  padding: 5%;
+}
+
+.navigation a:link, a:visited{
+  color: white;
+  text-decoration: none;
+}
+
+.navigation li:hover{
+  background-color: lightGreen;
+}
+
+.staff {
+  display: flex;
+  align-items: center;
+  margin-left:15%;
+}
+
+.info{
+  padding: 2%;
+}
+
+.changeFrom{
+  font-size: 8pt;
+  float: left;
+  margin-left: 14%
+}
+
+.changeTo{
+  font-size: 8pt;
+    float: left;
+  margin-left: 4%;
+}
