@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title> Sign Up Page</title>
+        <link rel = "stylesheet" href = "{{ url_for('static', filename = 'style.css') }}">
+    </head>
+    <body>
+      <script src="script.js"> </script>
+      <h1> Sign Up! </h1>
+        <form method = "POST" action = "/signup" onSubmit = "return validateForm();">
+          <lable for = "name"> Name:
+          <input type = "text" name = "firstName" placeholder = "Enter your First name"> <br>
+          <input type = "text" name = "lastName" placeholder = "Enter your Last name"> <br>
+
+          <!-- <lable for = "password"> Password:
+          <input type = "text" name = "password" placeholder = "Enter your password"> <br> -->
+
+          <lable for = "email"> Email:
+          <input type = "email" name = "email" placeholder = "Enter your email"> <br>
+
+          <lable for = "availability"> Availability:
+          <input type = "datetime-local" name = "availability"> <br>
+          <div id = "newInputBox"> </div>
+          <input type = "button" value = "Add More Dates" onclick = "addNewInput();"> </button> <br>
+          <input type = "submit" value = "SignUp">
+        </form>
+    </body>
+</html>

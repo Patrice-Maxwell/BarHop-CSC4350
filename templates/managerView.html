@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title> Staff Main View </title>
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'style.css') }}">
+  </head>
+
+  <body>
+    <h2> Welcome, Manager </h2>
+
+    <div class = "calendar">
+      <h3> November </h3>
+      <div class = "inCalendar">
+        <h3> Calendar </h3>
+      </div>
+    </div>
+
+    <div class = "navigation">
+      <ul>
+        <li> <a href = "{{ url_for('main') }}"> Main </a> </li>
+        <li> <a href = "{{ url_for('staffInfo') }}"> Staff Information </a> </li>
+        <li> <a href = "{{ url_for('pendingStaff') }}"> Pending New Staff </a> </li>
+        <li> <a href = "{{ url_for('shiftChange') }}"> Shift Change Requests </a> </li>
+    </div>
+
+  </body>
+</html>
