@@ -1,16 +1,11 @@
-<<<<<<< HEAD
 from logging import error
 import os
+from dotenv import load_dotenv, find_dotenv
 import flask
 from flask_login import login_user, LoginManager, current_user, UserMixin
 from flask_login.utils import login_required
 from flask.templating import render_template
 
-=======
-import os
-import flask
-from flask_login import login_user
->>>>>>> 9a4cfd6969bbdb6f634844535f66ca2f7ddfd65b
 from flask_sqlalchemy import SQLAlchemy
 
 app = flask.Flask(__name__)
@@ -20,20 +15,17 @@ app.config[
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+app.secret_key = b"os.getenv('APP_SECRET_KEY')"
+
 db = SQLAlchemy(app)
 
 
-<<<<<<< HEAD
 class Staff(db.Model, UserMixin):
-=======
-class Staff(db.Model):
->>>>>>> 9a4cfd6969bbdb6f634844535f66ca2f7ddfd65b
     task_id = db.Column(db.Integer, primary_key=True)
     employee_first_name = db.Column(db.String(120), nullable=False)
     employee_last_name = db.Column(db.String(120), nullable=False)
     employee_email = db.Column(db.String(180), nullable=False)
     employee_availability = db.Column(db.String(180), nullable=True)
-<<<<<<< HEAD
     # password = db.Column(db.String(180), nullable=True)
 
     def get_id(self):
@@ -67,18 +59,12 @@ def getDB():
         availability_list,
         # password_list
     )
-=======
-    password = db.Column(db.String(180), nullable=True)
-
-
-db.create_all()
->>>>>>> 9a4cfd6969bbdb6f634844535f66ca2f7ddfd65b
 
 
 @app.route("/")
 def index():
     if current_user.is_authenticated:
-        return flask.redirect(flask.url_for("/main"))
+        return flask.redirect(flask.url_for("main"))
     return flask.render_template("login.html")
 
 
@@ -88,8 +74,8 @@ login_manager.init_app(app)
 
 
 @login_manager.user_loader
-def load_user(employee_email):
-    return Staff.query.get(employee_email)
+def load_user(task_id):
+    return Staff.query.get(task_id)
 
 
 @app.route("/login", methods=["POST"])
@@ -172,7 +158,6 @@ def signup():
 @login_required
 def main():
 
-<<<<<<< HEAD
     # new_employee = Staff(
     #     employee_first_name="test_rice",
     #     employee_last_name="test_maxwell",
@@ -209,17 +194,6 @@ def pendingStaff():
 @app.route("/shiftChange")
 def shiftChange():
     return flask.render_template("shiftChange.html")
-=======
-    new_employee = Staff(
-        employee_first_name="test_rice",
-        employee_last_name="test_maxwell",
-        employee_email="test_group@project.com",
-        employee_availability="test never",
-    )
-    db.session.add(new_employee)
-    db.session.commit()
-    return flask.render_template("index.html")
->>>>>>> 9a4cfd6969bbdb6f634844535f66ca2f7ddfd65b
 
 
 if __name__ == "__main__":
