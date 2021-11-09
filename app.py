@@ -157,7 +157,10 @@ def signup():
 @app.route("/main")
 @login_required
 def main():
-
+    curr_user = Staff.query.filter_by(
+        employee_email=current_user.employee_email
+    ).first()
+    name = curr_user.employee_first_name
     # new_employee = Staff(
     #     employee_first_name="test_rice",
     #     employee_last_name="test_maxwell",
@@ -166,7 +169,7 @@ def main():
     # )
     # db.session.add(new_employee)
     # db.session.commit()
-    return flask.render_template("staffView.html")
+    return flask.render_template("staffView.html", name=name)
     # return flask.render_template("managerView.html")
 
 
