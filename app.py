@@ -111,6 +111,7 @@ def signup():
 @app.route("/main")
 def main():
 
+    first_name_list, last_name_list, email_list, availability_list = getDB()
     # new_employee = Staff(
     #     employee_first_name="test_rice",
     #     employee_last_name="test_maxwell",
@@ -119,7 +120,13 @@ def main():
     # )
     # db.session.add(new_employee)
     # db.session.commit()
-    return flask.render_template("staffView.html")
+    length = len(first_name_list)
+    return flask.render_template(
+        "staffView.html",
+        first_name_list = first_name_list,
+        last_name_list = last_name_list,
+        length = length
+    )
     # return flask.render_template("managerView.html")
 
 @app.route("/staffInfo")
