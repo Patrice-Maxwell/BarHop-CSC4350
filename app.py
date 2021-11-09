@@ -17,13 +17,16 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
-class Staff(db.Model):
+class Staff(db.Model, UserMixin):
     task_id = db.Column(db.Integer, primary_key=True)
     employee_first_name = db.Column(db.String(120), nullable=False)
     employee_last_name = db.Column(db.String(120), nullable=False)
     employee_email = db.Column(db.String(180), nullable=False)
     employee_availability = db.Column(db.String(180), nullable=True)
     # password = db.Column(db.String(180), nullable=True)
+
+    def get_id(self):
+        return self.task_id
 
 
 db.create_all()
