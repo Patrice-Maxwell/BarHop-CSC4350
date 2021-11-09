@@ -1,9 +1,11 @@
+import logging
 from logging import error
 import os
 from dotenv import load_dotenv, find_dotenv
 import flask
 from flask_login import login_user, LoginManager, current_user, UserMixin
-from flask_login.utils import login_required
+import flask_login
+from flask_login.utils import login_required, logout_user
 from flask.templating import render_template
 
 from flask_sqlalchemy import SQLAlchemy
@@ -187,6 +189,13 @@ def staffInfo():
         email_list=email_list,
         length=length,
     )
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return flask.redirect("/")
 
 
 @app.route("/pendingStaff")
