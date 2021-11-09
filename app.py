@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from logging import error
 import os
 import flask
@@ -5,6 +6,11 @@ from flask_login import login_user, LoginManager, current_user, UserMixin
 from flask_login.utils import login_required
 from flask.templating import render_template
 
+=======
+import os
+import flask
+from flask_login import login_user
+>>>>>>> 9a4cfd6969bbdb6f634844535f66ca2f7ddfd65b
 from flask_sqlalchemy import SQLAlchemy
 
 app = flask.Flask(__name__)
@@ -17,12 +23,17 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
+<<<<<<< HEAD
 class Staff(db.Model, UserMixin):
+=======
+class Staff(db.Model):
+>>>>>>> 9a4cfd6969bbdb6f634844535f66ca2f7ddfd65b
     task_id = db.Column(db.Integer, primary_key=True)
     employee_first_name = db.Column(db.String(120), nullable=False)
     employee_last_name = db.Column(db.String(120), nullable=False)
     employee_email = db.Column(db.String(180), nullable=False)
     employee_availability = db.Column(db.String(180), nullable=True)
+<<<<<<< HEAD
     # password = db.Column(db.String(180), nullable=True)
 
     def get_id(self):
@@ -56,6 +67,12 @@ def getDB():
         availability_list,
         # password_list
     )
+=======
+    password = db.Column(db.String(180), nullable=True)
+
+
+db.create_all()
+>>>>>>> 9a4cfd6969bbdb6f634844535f66ca2f7ddfd65b
 
 
 @app.route("/")
@@ -155,6 +172,7 @@ def signup():
 @login_required
 def main():
 
+<<<<<<< HEAD
     # new_employee = Staff(
     #     employee_first_name="test_rice",
     #     employee_last_name="test_maxwell",
@@ -191,6 +209,17 @@ def pendingStaff():
 @app.route("/shiftChange")
 def shiftChange():
     return flask.render_template("shiftChange.html")
+=======
+    new_employee = Staff(
+        employee_first_name="test_rice",
+        employee_last_name="test_maxwell",
+        employee_email="test_group@project.com",
+        employee_availability="test never",
+    )
+    db.session.add(new_employee)
+    db.session.commit()
+    return flask.render_template("index.html")
+>>>>>>> 9a4cfd6969bbdb6f634844535f66ca2f7ddfd65b
 
 
 if __name__ == "__main__":
