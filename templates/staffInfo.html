@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title> Staff Information Page</title>
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'style.css') }}">
+  </head>
+
+  <body>
+    <h1> STAFF INFO </h1>
+    {% for i in range(length) %}
+      <div class = "staff">
+        <img src = "/static/user.png">
+        <div class = info>
+          Name: {{first_name_list[i]}} {{last_name_list[i]}}<br>
+          Email: {{email_list[i]}} <br>
+          Position: unknown <br>
+        </div>
+        <form method = "POST"> 
+        <input type = "submit" value = "Remove">
+        </form>
+      </div>
+    {% endfor %}
+
+    <div class = "navigation">
+      <ul>
+        <li> <a href = "{{ url_for('main') }}"> Main </a> </li>
+        <li> <a href = "{{ url_for('staffInfo') }}"> Staff Information </a> </li>
+        <li> <a href = "{{ url_for('pendingStaff') }}"> Pending New Staff </a> </li>
+        <li> <a href = "{{ url_for('shiftChange') }}"> Shift Change Requests </a> </li>
+    </div>
+  </body>
+</html>
