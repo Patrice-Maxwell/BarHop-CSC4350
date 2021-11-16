@@ -28,7 +28,6 @@ class Staff(db.Model, UserMixin):
     employee_last_name = db.Column(db.String(120), nullable=False)
     employee_email = db.Column(db.String(180), nullable=False)
     employee_availability = db.Column(db.String(180), nullable=True)
-    # password = db.Column(db.String(180), nullable=True)
 
     def get_id(self):
         return self.task_id
@@ -36,7 +35,7 @@ class Staff(db.Model, UserMixin):
 
 db.create_all()
 
-# What is this function for?
+# function to get datas stored in database
 def getDB():
 
     items = Staff.query.all()
@@ -45,21 +44,18 @@ def getDB():
     last_name_list = []
     email_list = []
     availability_list = []
-    # password_list = []
 
     for item in items:
         first_name_list.append(item.employee_first_name)
         last_name_list.append(item.employee_last_name)
         email_list.append(item.employee_email)
         availability_list.append(item.employee_availability)
-        # password_list.append(item.password)
 
     return (
         first_name_list,
         last_name_list,
         email_list,
         availability_list,
-        # password_list
     )
 
 
@@ -79,7 +75,7 @@ login_manager.init_app(app)
 def load_user(task_id):
     return Staff.query.get(task_id)
 
-
+# function for login
 @app.route("/login", methods=["POST"])
 def login_post():
     employee_email = flask.request.form["email"]
@@ -96,23 +92,7 @@ def login_post():
             error="Invail login. Please sign up!",
         )
 
-
-# Anna's Login -------------------------------------------------------------------
-# @app.route("/login", methods = ["POST"])
-# def login():
-
-#     input_email = flask.request.form.get("email")
-
-#     first_name_list, last_name_list, email_list, availability_list = getDB()
-
-#     for email in email_list:
-#         if email == input_email:
-#             # for password in password_list:
-#             #     if password == input_password:
-#             return flask.redirect("/main")
-#     return flask.redirect("/")
-
-
+# function for signup
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if flask.request.method == "POST":
@@ -122,7 +102,6 @@ def signup():
         input_lastName = flask.request.form.get("lastName")
         input_email = flask.request.form.get("email")
         input_availability = flask.request.form.get("availability")
-        # input_password = flask.request.form.get("password")
 
         first_name_list, last_name_list, email_list, availability_list = getDB()
 
@@ -138,9 +117,6 @@ def signup():
         for availability in availability_list:
             if availability == input_availability:
                 alreadyUser = True
-        # for password in password_list:
-        #     if (password == input_password):
-        #         alreadyUser = True
 
         if alreadyUser == False:
             new_employee = Staff(
@@ -155,30 +131,41 @@ def signup():
 
     return flask.render_template("signup.html")
 
-
+# function to load the main page of the staff
 @app.route("/main")
 @login_required
 def main():
+
+    first_name_list, last_name_list, email_list, availability_list = getDB()
 
     curr_user = Staff.query.filter_by(
         employee_email=current_user.employee_email
     ).first()
     name = curr_user.employee_first_name
 
+    length = len(first_name_list)
 
-    return flask.render_template("staffView.html", name=name)
+    return flask.render_template(
+        "staffView.html",
+        name=name,
+        length=length,
+        first_name_list=first_name_list,
+        last_name_list=last_name_list,
+    )
 
-    #length = len(first_name_list)
-    #return flask.render_template(
-    #   "staffView.html",
-    #   first_name_list = first_name_list,
-    #   last_name_list = last_name_list,
-    #   length = length
-    #)
+# function used for testing, return the availability for the chosen user
+def returnAvailability(input_email):
 
-    # return flask.render_template("managerView.html")
+    curr_user = Staff.query.filter_by(
+        input_email=current_user.employee_email
+    ).first()
+
+    availability = curr_user.employee_availability
+
+    return availability
 
 
+# function to load staffInfo page used with manager user for sprint 2
 @app.route("/staffInfo")
 def staffInfo():
     # if flask.request.method == 'POST':
