@@ -5,15 +5,15 @@ body{
     color: black;
   }
   
-  .login a:link{
-    color: black;
-  }
-  .logout{
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    
-  }
+.login a:link{
+  color: black;
+}
+
+.logout{
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
   
   legend{
     display: flex;
@@ -35,7 +35,7 @@ body{
   }
   
   .calendar{
-    width: 65%;
+    width: 75%;
     float: left;
     margin-top: 8%;
   }
@@ -43,14 +43,6 @@ body{
   .inCalendar{
     border: black solid;
     height: 60%;
-  }
-  
-  .chatbox{
-    margin-top: 5%;
-    border: black solid;
-    width: 25%;
-    height: 48%;
-    float: right;
   }
   
   .navigation{
