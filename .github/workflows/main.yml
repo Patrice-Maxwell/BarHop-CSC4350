@@ -32,3 +32,7 @@ jobs:
       # Runs the linter for all python files
       - name: Lint files
         run: find . -name '*.py' -exec pylint {} \;
+
+      # Runs unittest for python files
+      - name: Run test
+        run: python -m unittest
