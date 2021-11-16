@@ -14,10 +14,10 @@
   </div>
   <div class="requestBox">
     <form>
-      <lable for="change"> Request Changes <br>
+      <lable for = "change"> Request Changes <br>
         <input type="datetime-local" name="change">
-        <input type="submit" value="Request">
-        <label for = "staffList"> Staff to change with: </label>
+        <input type="submit" value="Request"> <br> <br>
+        <label for = "staffList"> Staff to change with: </label> <br>
         <select name = "staffList" id = "staffList">
           {% for i in range(length) %}
           <option value = "{{first_name_list[i]}}{{last_name_list[i]}}"> {{first_name_list[i]}} {{last_name_list[i]}}</option> 
@@ -35,9 +35,6 @@
     </div>
   </div>
 
-  <div class="chatbox">
-    <h3> Chat Box </h3>
-  </div>
 </body>
 
 </html>
