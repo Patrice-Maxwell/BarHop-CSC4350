@@ -3,3 +3,6 @@ python-dotenv
 requests
 logging
 os
+Flask-Login
+psycopg2-binary
+Flask-SQLAlchemy
