@@ -31,7 +31,8 @@ body{
   
   .requestBox{
     float: right;
-    margin-top: 5%;
+    margin-right: 5%;
+    margin-top: 15%;
   }
   
   .calendar{
