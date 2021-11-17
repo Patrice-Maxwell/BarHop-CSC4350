@@ -161,10 +161,7 @@ def signup():
 
     return flask.render_template("signup.html")
 
-
-
 def user_preference():
-
 
     curr_user = Staff.query.filter_by(
         employee_email=current_user.employee_email
@@ -179,25 +176,22 @@ def user_preference():
 def main():
 
     name = user_preference()
-
-    
+    curr_user = Staff.query.filter_by(
+        employee_email=current_user.employee_email
+    ).first()
 
     list = curr_user.employee_availability
     list = str(list)[1:-1]
     list = list.replace('"', '')
     availability = list.split(',')
 
-    length = len(first_name_list)
+    print(returnAvailability("a10@a"))
 
     return flask.render_template(
         "staffView.html",
         name=name,
-        length=length,
-        first_name_list=first_name_list,
-        last_name_list=last_name_list,
         availability = availability,
     )
-
 
 @app.route("/changeAvailability", methods = ["GET", "POST"])
 def changeAvailability():
@@ -216,18 +210,29 @@ def changeAvailability():
 
     return flask.render_template("changeAvailability.html")
 
+# function used for testing, check if email is in the database or not
+def checkEmail(input_email):
+    first_name_list, last_name_list, email_list, availability_list = getDB()
+    
+    for item in email_list:
+        print(item)
+        if input_email == item:
+            return True
+    return False
+
+# function used for testsing, returns first name of employee based on email
+def checkName(input_email):
+    user = Staff.query.filter_by(employee_email=input_email).first()
+    first_name = user.employee_first_name
+    return first_name
+
 # function used for testing, return the availability for the chosen user
 def returnAvailability(input_email):
 
-    curr_user = Staff.query.filter_by(
-        input_email=current_user.employee_email
-    ).first()
-
-    availability = curr_user.employee_availability
+    user = Staff.query.filter_by(employee_email=input_email).first()
+    availability = user.employee_availability
 
     return availability
-
-
 
 # function to load staffInfo page used with manager user for sprint 2
 @app.route("/staffInfo")
