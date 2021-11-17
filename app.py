@@ -61,7 +61,7 @@ def getDB():
 
 @app.route("/")
 def index():
-    
+
     if current_user.is_authenticated:
         return flask.redirect(flask.url_for("main"))
     return flask.render_template("login.html")
@@ -77,7 +77,6 @@ def load_user(task_id):
     return Staff.query.get(task_id)
 
 
-
 def email_format(email):
     email = email.lower()
     print(email)
@@ -90,8 +89,8 @@ def logger(user):
     return user
 
 
-
 # function for login
+
 
 @app.route("/login", methods=["POST"])
 def login_post():
@@ -109,7 +108,6 @@ def login_post():
             "login.html",
             error="Invalid login. Please sign up!",
         )
-
 
 
 def already_User(first_name_list, last_name_list, email_list, availability_list):
@@ -135,6 +133,7 @@ def already_User(first_name_list, last_name_list, email_list, availability_list)
     # for password in password_list:
     #     if (password == input_password):
     #         alreadyUser = True
+
     return (input_firstName, input_lastName, input_email, alreadyUser)
 
 
@@ -142,11 +141,10 @@ def already_User(first_name_list, last_name_list, email_list, availability_list)
 def signup():
     if flask.request.method == "POST":
         first_name_list, last_name_list, email_list, availability_list = getDB()
-
+        switch = False
         input_firstName, input_lastName, input_email, alreadyUser = already_User(
-            first_name_list, last_name_list, email_list, availability_list
+            first_name_list, last_name_list, email_list, availability_list, switch
         )
-
 
         if alreadyUser == False:
             new_employee = Staff(
@@ -158,13 +156,10 @@ def signup():
             db.session.add(new_employee)
             db.session.commit()
             return flask.redirect("/")
-
     return flask.render_template("signup.html")
 
 
-
 def user_preference():
-
 
     curr_user = Staff.query.filter_by(
         employee_email=current_user.employee_email
@@ -178,14 +173,17 @@ def user_preference():
 @login_required
 def main():
 
-    name = user_preference()
+    first_name_list, last_name_list, email_list, availability_list = getDB()
+    availability = []
+    curr_user = Staff.query.filter_by(
+        employee_email=current_user.employee_email
+    ).first()
 
-    
-
-    list = curr_user.employee_availability
+    name = curr_user.employee_first_name
+    list = name.employee_availability
     list = str(list)[1:-1]
-    list = list.replace('"', '')
-    availability = list.split(',')
+    list = list.replace('"', "")
+    availability = list.split(",")
 
     length = len(first_name_list)
 
@@ -195,11 +193,11 @@ def main():
         length=length,
         first_name_list=first_name_list,
         last_name_list=last_name_list,
-        availability = availability,
+        availability=availability,
     )
 
 
-@app.route("/changeAvailability", methods = ["GET", "POST"])
+@app.route("/changeAvailability", methods=["GET", "POST"])
 def changeAvailability():
     if flask.request.method == "POST":
         curr_user = Staff.query.filter_by(
@@ -216,17 +214,15 @@ def changeAvailability():
 
     return flask.render_template("changeAvailability.html")
 
+
 # function used for testing, return the availability for the chosen user
 def returnAvailability(input_email):
 
-    curr_user = Staff.query.filter_by(
-        input_email=current_user.employee_email
-    ).first()
+    curr_user = Staff.query.filter_by(input_email=current_user.employee_email).first()
 
     availability = curr_user.employee_availability
 
     return availability
-
 
 
 # function to load staffInfo page used with manager user for sprint 2
@@ -245,9 +241,11 @@ def staffInfo():
         length=length,
     )
 
+
 @app.route("/calendar")
 def calendar():
     return render_template("calendar.html")
+
 
 @app.route("/logout")
 @login_required
