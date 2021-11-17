@@ -1,0 +1,43 @@
+<html>
+<head>
+  <title> Staff Main View </title>
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
+</head>
+
+<body>
+  <div>
+    <h2> Welcome, {{name}}</h2>
+
+    <form class="logout" action="/logout">
+      <input type="submit" value="LOGOUT">
+    </form>
+  </div>
+  <div class="requestBox">
+    <form>
+      <lable for="change"> Request Changes <br>
+        <input type="datetime-local" name="change">
+        <input type="submit" value="Request">
+        <label for = "staffList"> Staff to change with: </label>
+        <select name = "staffList" id = "staffList">
+          {% for i in range(length) %}
+          <option value = "{{first_name_list[i]}}{{last_name_list[i]}}"> {{first_name_list[i]}} {{last_name_list[i]}}</option> 
+          {% endfor %}
+        </select>
+        <input type = "submit" value = "Request">
+      </form>
+    </div>
+  </div>
+
+  <div class="calendar">
+    <h3> November </h3>
+    <div class="inCalendar">
+      <h3> Calendar </h3>
+    </div>
+  </div>
+
+  <div class="chatbox">
+    <h3> Chat Box </h3>
+  </div>
+</body>
+
+</html>

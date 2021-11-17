@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title> Pending New Staff Page</title>
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'style.css') }}">
+  </head>
+
+  <body>
+    <h1> PENDING NEW STAFF </h1>
+    <div class = "staff">
+      <img src = "/static/user.png" width = 10%>
+      <div class = info>
+        Name: John Doe <br>
+        Email: jdoe@email.com <br>
+      </div>
+      <input type = "button" value = "Add">
+      <input type = "button" value = "Reject">
+    </div>
+
+    <div class = "navigation">
+      <ul>
+        <li> <a href = "{{ url_for('main') }}"> Main </a> </li>
+        <li> <a href = "{{ url_for('staffInfo') }}"> Staff Information </a> </li>
+        <li> <a href = "{{ url_for('pendingStaff') }}"> Pending New Staff </a> </li>
+        <li> <a href = "{{ url_for('shiftChange') }}"> Shift Change Requests </a> </li>
+        <li> <a href = "{{ url_for('calendar') }}"> Calendar </a> </li>
+    </div>
+  </body>
+</html>
