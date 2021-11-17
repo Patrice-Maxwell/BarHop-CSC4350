@@ -173,27 +173,27 @@ def user_preference():
 @login_required
 def main():
 
-    first_name_list, last_name_list, email_list, availability_list = getDB()
-    availability = []
-    curr_user = Staff.query.filter_by(
-        employee_email=current_user.employee_email
-    ).first()
+    # first_name_list, last_name_list, email_list, availability_list = getDB()
+    # availability = []
+    # curr_user = Staff.query.filter_by(
+    #     employee_email=current_user.employee_email
+    # ).first()
 
-    name = curr_user.employee_first_name
-    list = name.employee_availability
-    list = str(list)[1:-1]
-    list = list.replace('"', "")
-    availability = list.split(",")
+    # name = curr_user.employee_first_name
+    # list = name.employee_availability
+    # list = str(list)[1:-1]
+    # list = list.replace('"', "")
+    # availability = list.split(",")
 
-    length = len(first_name_list)
+    # length = len(first_name_list)
 
     return flask.render_template(
         "staffView.html",
-        name=name,
-        length=length,
-        first_name_list=first_name_list,
-        last_name_list=last_name_list,
-        availability=availability,
+        # name=name,
+        # length=length,
+        # first_name_list=first_name_list,
+        # last_name_list=last_name_list,
+        # availability=availability,
     )
 
 
@@ -265,4 +265,4 @@ def shiftChange():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 808)), debug=True)
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 8080)), debug=True)
