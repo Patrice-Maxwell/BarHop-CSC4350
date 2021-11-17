@@ -1,22 +1,11 @@
 <html>
     <head>
-        <title> Sign Up Page</title>
+        <title> Change Availability</title>
         <link rel = "stylesheet" href = "{{ url_for('static', filename = 'style.css') }}">
     </head>
     <body>
-      <h1> Sign Up! </h1>
-        <form method = "POST" action = "/signup" onSubmit = "return validateForm();">
-          <lable for = "name"> Name:
-          <input type = "text" name = "firstName" placeholder = "Enter your First name"> <br>
-          <input type = "text" name = "lastName" placeholder = "Enter your Last name"> <br>
-
-          <!-- <lable for = "password"> Password:
-          <input type = "text" name = "password" placeholder = "Enter your password"> <br> -->
-
-          <lable for = "email"> Email:
-          <input type = "email" name = "email" placeholder = "Enter your email"> <br>
-
-          <lable> Availability: <br>
+          <h1> Availability: </h1>
+          <form method = "POST" action = "/changeAvailability" onSubmit = "return validateForm();">
           <input type = "checkbox" id = "Monday" name = "availability" value = "Monday Morning">
           <label for = "Monday Morning"> Monday Morning</label>
           <input type = "checkbox" id = "Monday" name = "availability" value = "Monday Night">
@@ -52,7 +41,7 @@
           <input type = "checkbox" id = "Sunday" name = "availability" value = "Sunday Night">
           <label for = "Sunday Night"> Sunday Night</label> <br>
 
-          <input type = "submit" value = "SignUp">
+          <input type = "submit" value = "Submit">
         </form>
     </body>
 </html>
