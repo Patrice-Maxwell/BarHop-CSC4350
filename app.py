@@ -107,7 +107,7 @@ def login_post():
     else:
         return render_template(
             "login.html",
-            error="Invail login. Please sign up!",
+            error="Invalid login. Please sign up!",
         )
 
 
@@ -245,6 +245,9 @@ def staffInfo():
         length=length,
     )
 
+@app.route("/calendar")
+def calendar():
+    return render_template("calendar.html")
 
 @app.route("/logout")
 @login_required
