@@ -28,7 +28,6 @@ class Staff(db.Model, UserMixin):
     employee_last_name = db.Column(db.String(120), nullable=False)
     employee_email = db.Column(db.String(180), nullable=False)
     employee_availability = db.Column(db.String(180), nullable=True)
-    # password = db.Column(db.String(180), nullable=True)
 
     def get_id(self):
         return self.task_id
@@ -36,7 +35,7 @@ class Staff(db.Model, UserMixin):
 
 db.create_all()
 
-# What is this function for?
+# function to get datas stored in database
 def getDB():
 
     items = Staff.query.all()
@@ -45,27 +44,24 @@ def getDB():
     last_name_list = []
     email_list = []
     availability_list = []
-    # password_list = []
 
     for item in items:
         first_name_list.append(item.employee_first_name)
         last_name_list.append(item.employee_last_name)
         email_list.append(item.employee_email)
         availability_list.append(item.employee_availability)
-        # password_list.append(item.password)
 
     return (
         first_name_list,
         last_name_list,
         email_list,
         availability_list,
-        # password_list
     )
 
 
 @app.route("/")
 def index():
-    print(current_user)
+    
     if current_user.is_authenticated:
         return flask.redirect(flask.url_for("main"))
     return flask.render_template("login.html")
@@ -81,6 +77,7 @@ def load_user(task_id):
     return Staff.query.get(task_id)
 
 
+
 def email_format(email):
     email = email.lower()
     print(email)
@@ -92,6 +89,9 @@ def logger(user):
     print(user)
     return user
 
+
+
+# function for login
 
 @app.route("/login", methods=["POST"])
 def login_post():
@@ -109,6 +109,7 @@ def login_post():
             "login.html",
             error="Invail login. Please sign up!",
         )
+
 
 
 def already_User(first_name_list, last_name_list, email_list, availability_list):
@@ -146,6 +147,7 @@ def signup():
             first_name_list, last_name_list, email_list, availability_list
         )
 
+
         if alreadyUser == False:
             new_employee = Staff(
                 employee_first_name=input_firstName,
@@ -160,11 +162,15 @@ def signup():
     return flask.render_template("signup.html")
 
 
+
 def user_preference():
+
+
     curr_user = Staff.query.filter_by(
         employee_email=current_user.employee_email
     ).first()
     name = curr_user.employee_first_name
+
     return name
 
 
@@ -174,9 +180,56 @@ def main():
 
     name = user_preference()
 
-    return flask.render_template("staffView.html", name=name)
+    
+
+    list = curr_user.employee_availability
+    list = str(list)[1:-1]
+    list = list.replace('"', '')
+    availability = list.split(',')
+
+    length = len(first_name_list)
+
+    return flask.render_template(
+        "staffView.html",
+        name=name,
+        length=length,
+        first_name_list=first_name_list,
+        last_name_list=last_name_list,
+        availability = availability,
+    )
 
 
+@app.route("/changeAvailability", methods = ["GET", "POST"])
+def changeAvailability():
+    if flask.request.method == "POST":
+        curr_user = Staff.query.filter_by(
+            employee_email=current_user.employee_email
+        ).first()
+
+        input_availability = flask.request.form.getlist("availability")
+        print(input_availability)
+        curr_user.employee_availability = input_availability
+        print(curr_user.employee_availability)
+        db.session.commit()
+
+        return flask.redirect("/main")
+
+    return flask.render_template("changeAvailability.html")
+
+# function used for testing, return the availability for the chosen user
+def returnAvailability(input_email):
+
+    curr_user = Staff.query.filter_by(
+        input_email=current_user.employee_email
+    ).first()
+
+    availability = curr_user.employee_availability
+
+    return availability
+
+
+
+# function to load staffInfo page used with manager user for sprint 2
 @app.route("/staffInfo")
 def staffInfo():
     # if flask.request.method == 'POST':
