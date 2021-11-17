@@ -1,7 +1,48 @@
 <html>
 <head>
   <title> Staff Main View </title>
-  <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
+  <meta charset = "UTF-8">
+  <meta name = "viewport"
+  content = "width = device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel = "stylesheet" href = "https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
+  <script src = "https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+  <style>
+     body{
+    font-family: "Arial";
+    text-align: center;
+    margin: 2%;
+    color: black;
+  }
+
+  .logout{
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
+  
+  label{
+    font-weight: bold;
+    margin: 1%;
+  }
+  
+  input{
+    margin: 1%;
+  }
+  
+  .requestBox{
+    float: right;
+    margin-right: 15%;
+    margin-top: 10%;
+  }
+
+  .calendar{
+    width: 45%;
+    float: left;
+    margin-top: 2%;
+    margin-left: 10%;
+  }
+  </style>
 </head>
 
 <body>
@@ -22,10 +63,16 @@
   </div>
 
   <div class="calendar">
-    <h3> November </h3>
-    <div class="inCalendar">
-      <h3> Calendar </h3>
-    </div>
+    <div id ="calendar"></div>
+    <script>
+        let calendarEl = document.getElementById
+        ('calendar');
+
+        let calendar = new FullCalendar.Calendar
+        (calendarEl, {});
+
+        calendar.render();
+    </script>
   </div>
 
 </body>
