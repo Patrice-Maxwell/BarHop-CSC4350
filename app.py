@@ -61,6 +61,7 @@ def getDB():
 
 @app.route("/")
 def index():
+    
     if current_user.is_authenticated:
         return flask.redirect(flask.url_for("main"))
     return flask.render_template("login.html")
@@ -75,15 +76,32 @@ login_manager.init_app(app)
 def load_user(task_id):
     return Staff.query.get(task_id)
 
+
+
+def email_format(email):
+    email = email.lower()
+    print(email)
+    return email
+
+
+def logger(user):
+    login_user(user)
+    print(user)
+    return user
+
+
+
 # function for login
+
 @app.route("/login", methods=["POST"])
 def login_post():
     employee_email = flask.request.form["email"]
+    employee_email = email_format(employee_email)
     user = Staff.query.filter_by(employee_email=employee_email).first()
-    error = None
 
+    error = None
     if user:
-        login_user(user)
+        logger(user)
         return flask.redirect(flask.url_for("index"))
 
     else:
@@ -92,31 +110,43 @@ def login_post():
             error="Invail login. Please sign up!",
         )
 
-# function for signup
+
+
+def already_User(first_name_list, last_name_list, email_list, availability_list):
+    alreadyUser = False
+    input_firstName = flask.request.form.get("firstName")
+    input_lastName = flask.request.form.get("lastName")
+    input_email = flask.request.form.get("email")
+    input_availability = flask.request.form.get("availability")
+    # input_password = flask.request.form.get("password")
+
+    for firstName in first_name_list:
+        if firstName == input_firstName:
+            alreadyUser = True
+    for lastName in last_name_list:
+        if lastName == input_lastName:
+            alreadyUser = True
+    for email in email_list:
+        if email == input_email:
+            alreadyUser = True
+    for availability in availability_list:
+        if availability == input_availability:
+            alreadyUser = True
+    # for password in password_list:
+    #     if (password == input_password):
+    #         alreadyUser = True
+    return (input_firstName, input_lastName, input_email, alreadyUser)
+
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if flask.request.method == "POST":
-        alreadyUser = False
-
-        input_firstName = flask.request.form.get("firstName")
-        input_lastName = flask.request.form.get("lastName")
-        input_email = flask.request.form.get("email")
-        input_availability = flask.request.form.get("availability")
-
         first_name_list, last_name_list, email_list, availability_list = getDB()
 
-        for firstName in first_name_list:
-            if firstName == input_firstName:
-                alreadyUser = True
-        for lastName in last_name_list:
-            if lastName == input_lastName:
-                alreadyUser = True
-        for email in email_list:
-            if email == input_email:
-                alreadyUser = True
-        # for availability in availability_list:
-        #     if availability == input_availability:
-        #         alreadyUser = True
+        input_firstName, input_lastName, input_email, alreadyUser = already_User(
+            first_name_list, last_name_list, email_list, availability_list
+        )
+
 
         if alreadyUser == False:
             new_employee = Staff(
@@ -131,18 +161,27 @@ def signup():
 
     return flask.render_template("signup.html")
 
-# function to load the main page of the staff
-@app.route("/main")
-@login_required
-def main():
 
-    first_name_list, last_name_list, email_list, availability_list = getDB()
-    availability = []
+
+def user_preference():
+
 
     curr_user = Staff.query.filter_by(
         employee_email=current_user.employee_email
     ).first()
     name = curr_user.employee_first_name
+
+    return name
+
+
+@app.route("/main")
+@login_required
+def main():
+
+    name = user_preference()
+
+    
+
     list = curr_user.employee_availability
     list = str(list)[1:-1]
     list = list.replace('"', '')
@@ -187,6 +226,7 @@ def returnAvailability(input_email):
     availability = curr_user.employee_availability
 
     return availability
+
 
 
 # function to load staffInfo page used with manager user for sprint 2
