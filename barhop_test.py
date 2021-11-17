@@ -1,26 +1,31 @@
 import unittest
-
+from app import returnAvailability, checkEmail, checkName
 
 class BarhopTestCase(unittest.TestCase):
-    def login_client(self):
-        self.sucess_test_params = []
+    def testCheckEmail(self):
+        KEY_INPUT = "ttesting@email.com"
+        KEY_EXPECTED = True
+        actual_result = checkEmail(KEY_INPUT)
+        expected_result = KEY_EXPECTED
 
-        self.failure_test_params = []
+        self.assertEqual(actual_result, expected_result)
 
-    def login__mocked_server(self):
-        self.sucess_test_params = []
+    def testcheckName(self):
+        KEY_INPUT = "pmaxwell6@student.gsu.edu"
+        KEY_EXPECTED = "Rice"
+        actual_result = checkName(KEY_INPUT)
+        expected_result = KEY_EXPECTED
 
-        self.failure_test_params = []
+        self.assertEqual(actual_result, expected_result)
 
-    def signin_client(self):
-        self.sucess_test_params = []
+    def testAvailability(self):
+        KEY_INPUT = "a10@a"
+        KEY_EXPECTED = '{"Thursday Night","Friday Night","Saturday Night","Sunday Night"}'
+        actual_result = returnAvailability(KEY_INPUT)
+        expected_result = KEY_EXPECTED
 
-        self.failure_test_params = []
+        self.assertEqual(actual_result, expected_result)
 
-    def signin_unmocked_client(self):
-        self.sucess_test_params = []
-
-        self.failure_test_params = []
 
 
 if __name__ == "__main__":
