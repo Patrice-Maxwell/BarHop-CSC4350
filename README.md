@@ -1,7 +1,6 @@
 
 App Name:BarHop
-Decription:Scheduling app, with calendar and chat features
-
+Decription:Scheduling app, with calendar features
 
 Heroku App Name:
     floating-caverns-58300
