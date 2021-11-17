@@ -114,9 +114,9 @@ def signup():
         for email in email_list:
             if email == input_email:
                 alreadyUser = True
-        for availability in availability_list:
-            if availability == input_availability:
-                alreadyUser = True
+        # for availability in availability_list:
+        #     if availability == input_availability:
+        #         alreadyUser = True
 
         if alreadyUser == False:
             new_employee = Staff(
@@ -137,11 +137,16 @@ def signup():
 def main():
 
     first_name_list, last_name_list, email_list, availability_list = getDB()
+    availability = []
 
     curr_user = Staff.query.filter_by(
         employee_email=current_user.employee_email
     ).first()
     name = curr_user.employee_first_name
+    list = curr_user.employee_availability
+    list = str(list)[1:-1]
+    list = list.replace('"', '')
+    availability = list.split(',')
 
     length = len(first_name_list)
 
@@ -151,7 +156,26 @@ def main():
         length=length,
         first_name_list=first_name_list,
         last_name_list=last_name_list,
+        availability = availability,
     )
+
+
+@app.route("/changeAvailability", methods = ["GET", "POST"])
+def changeAvailability():
+    if flask.request.method == "POST":
+        curr_user = Staff.query.filter_by(
+            employee_email=current_user.employee_email
+        ).first()
+
+        input_availability = flask.request.form.getlist("availability")
+        print(input_availability)
+        curr_user.employee_availability = input_availability
+        print(curr_user.employee_availability)
+        db.session.commit()
+
+        return flask.redirect("/main")
+
+    return flask.render_template("changeAvailability.html")
 
 # function used for testing, return the availability for the chosen user
 def returnAvailability(input_email):
