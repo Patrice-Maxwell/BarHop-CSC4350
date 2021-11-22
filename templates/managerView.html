@@ -1,11 +1,15 @@
 <html>
   <head>
-    <title> Staff Main View </title>
+    <title> Manager Main View </title>
     <link rel = "stylesheet" href = "{{ url_for('static', filename = 'style.css') }}">
   </head>
 
   <body>
     <h2> Welcome, Manager </h2>
+
+    <form class="logout" action="/logout">
+      <input type="submit" value="LOGOUT">
+    </form>
 
     <div class = "calendar">
       <h3> November </h3>
