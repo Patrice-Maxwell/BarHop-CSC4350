@@ -50,6 +50,7 @@ body{
     float: right;
     margin-right: 3%;
     margin-top: 10%;
+
   }
   
   .navigation ul{
@@ -72,19 +73,33 @@ body{
   .navigation li:hover{
     background-color: lightGreen;
   }
+
+  .staffContainer{
+    float: left;
+    margin-left: 10%;
+    width: 33%;
+    position: relative;
+  }
   
   .staff {
     display: flex;
     align-items: center;
-    margin-left:15%;
   }
   
   .staff img{
-      width: 10%;
+      width: 20%;
+      margin-right: 10%;
   }
   
   .info{
     padding: 2%;
+    text-align: left;
+  }
+
+  .removeStaff{
+    width: 20%;
+    position: relative;
+    margin-left: 45%;
   }
   
   .changeFrom{
