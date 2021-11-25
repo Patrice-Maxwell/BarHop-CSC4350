@@ -13,7 +13,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = flask.Flask(__name__)
 app.config[
     "SQLALCHEMY_DATABASE_URI"
-] = "postgresql://luluzeugoxqaba:f082d0f1f1f01321bfe2e94fd176374166edda647252c2e795b5a9a189970816@ec2-107-23-135-132.compute-1.amazonaws.com:5432/d3v8dftmvr631l"
+] = "postgresql://sggmedeucfzqbo:817307a94016431c320ff1403aa1b2f95c7bd71da6abc999ed157e826910c852@ec2-54-157-16-125.compute-1.amazonaws.com:5432/d61tam9105a164"
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -33,7 +33,26 @@ class Staff(db.Model, UserMixin):
         return self.task_id
 
 
+class Manager(db.Model, UserMixin):
+    task_id = db.Column(db.Integer, primary_key=True)
+    manager_name = db.Column(db.String(120), nullable=False)
+    manager_email = db.Column(db.String(120), nullable=False)
+
+    def get_id(self):
+        return self.task_id
+
+
 db.create_all()
+
+#### Managers are not allowed to signup , must be manually added to manager database
+new_manager_john = Manager(
+    manager_name="John Martin", manager_email="jmartin191@gsu.edu"
+)
+new_manager = Manager(
+    manager_name="Manager_Login", manager_email="barhop.4350@gmail.com"
+)
+db.session.add(new_manager, new_manager_john)
+db.session.commit()
 
 # function to get datas stored in database
 def getDB():
@@ -97,12 +116,23 @@ def login_post():
     employee_email = flask.request.form["email"]
     employee_email = email_format(employee_email)
     user = Staff.query.filter_by(employee_email=employee_email).first()
-
+    management = Manager.query.filter_by(manager_email=employee_email).first()
     error = None
+
     if user:
         logger(user)
         return flask.redirect(flask.url_for("index"))
 
+    if management:
+        # User session will be started for management
+        logger(management)
+        return flask.render_template("managerView.html")
+
+    if employee_email == "":
+        return render_template(
+            "login.html",
+            error="No email entered , please sign in!",
+        )
     else:
         return render_template(
             "login.html",
@@ -141,9 +171,9 @@ def already_User(first_name_list, last_name_list, email_list, availability_list)
 def signup():
     if flask.request.method == "POST":
         first_name_list, last_name_list, email_list, availability_list = getDB()
-        switch = False
+
         input_firstName, input_lastName, input_email, alreadyUser = already_User(
-            first_name_list, last_name_list, email_list, availability_list, switch
+            first_name_list, last_name_list, email_list, availability_list
         )
 
         if alreadyUser == False:
@@ -157,6 +187,7 @@ def signup():
             db.session.commit()
             return flask.redirect("/")
     return flask.render_template("signup.html")
+
 
 def user_preference():
 
@@ -172,7 +203,6 @@ def user_preference():
 @login_required
 def main():
 
-
     # first_name_list, last_name_list, email_list, availability_list = getDB()
     # availability = []
     # curr_user = Staff.query.filter_by(
@@ -187,14 +217,14 @@ def main():
 
     # length = len(first_name_list)
 
-   # return flask.render_template(
+    # return flask.render_template(
     #    "staffView.html",
-        # name=name,
-        # length=length,
-        # first_name_list=first_name_list,
-        # last_name_list=last_name_list,
-        # availability=availability,
-   # )
+    # name=name,
+    # length=length,
+    # first_name_list=first_name_list,
+    # last_name_list=last_name_list,
+    # availability=availability,
+    # )
 
     name = user_preference()
     curr_user = Staff.query.filter_by(
@@ -203,18 +233,17 @@ def main():
 
     list = curr_user.employee_availability
     list = str(list)[1:-1]
-    list = list.replace('"', '')
-    availability = list.split(',')
-
-    print(returnAvailability("a10@a"))
+    list = list.replace('"', "")
+    availability = list.split(",")
 
     return flask.render_template(
         "staffView.html",
         name=name,
-        availability = availability,
+        availability=availability,
     )
-@app.route("/changeAvailability", methods = ["GET", "POST"])
 
+
+@app.route("/changeAvailability", methods=["GET", "POST"])
 def changeAvailability():
     if flask.request.method == "POST":
         curr_user = Staff.query.filter_by(
@@ -235,12 +264,13 @@ def changeAvailability():
 # function used for testing, check if email is in the database or not
 def checkEmail(input_email):
     first_name_list, last_name_list, email_list, availability_list = getDB()
-    
+
     for item in email_list:
         print(item)
         if input_email == item:
             return True
     return False
+
 
 # function used for testsing, returns first name of employee based on email
 def checkName(input_email):
@@ -252,15 +282,14 @@ def checkName(input_email):
 # function used for testing, return the availability for the chosen user
 def returnAvailability(input_email):
 
-#<<<<<<< Rice_branch
-    #curr_user = Staff.query.filter_by(input_email=current_user.employee_email).first()
+    # <<<<<<< Rice_branch
+    # curr_user = Staff.query.filter_by(input_email=current_user.employee_email).first()
 
-    #availability = curr_user.employee_availability
+    # availability = curr_user.employee_availability
 
-    #return availability
+    # return availability
 
-
-#=======
+    # =======
     user = Staff.query.filter_by(employee_email=input_email).first()
     availability = user.employee_availability
 
