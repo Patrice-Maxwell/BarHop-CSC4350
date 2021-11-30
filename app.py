@@ -8,6 +8,9 @@ import flask_login
 from flask_login.utils import login_required, logout_user
 from flask.templating import render_template
 
+# from pythongrid_app.grid import PythonGrid
+# from pythongrid_app.data import PythonGridDbData
+# from pythongrid_app.export import PythonGridDbExport
 from flask_sqlalchemy import SQLAlchemy
 
 app = flask.Flask(__name__)
@@ -78,11 +81,13 @@ def getDB():
     )
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
 
     if current_user.is_authenticated:
+        print("\n\nSomething is VERY wrong\n\n\n")
         return flask.redirect(flask.url_for("main"))
+    print("Something is very right?")
     return flask.render_template("login.html")
 
 
@@ -126,7 +131,8 @@ def login_post():
     if management:
         # User session will be started for management
         logger(management)
-        return flask.render_template("managerView.html")
+        name = management.manager_name
+        return flask.render_template("managerView.html", name=name)
 
     if employee_email == "":
         return render_template(
@@ -212,7 +218,7 @@ def main():
     # name = curr_user.employee_first_name
     # list = name.employee_availability
     # list = str(list)[1:-1]
-    # list = list.replace('"', "")
+    # list = list.replacwe('"', "")
     # availability = list.split(",")
 
     # length = len(first_name_list)
@@ -319,8 +325,8 @@ def calendar():
 
 
 @app.route("/logout")
-@login_required
 def logout():
+    print(current_user)
     logout_user()
     return flask.redirect("/")
 
@@ -328,6 +334,12 @@ def logout():
 @app.route("/pendingStaff")
 def pendingStaff():
     return flask.render_template("pendingStaff.html")
+
+
+@app.route("/scheduling")
+def scheduling():
+    grid = PythonGrid('"SELECT * FROM Staff", "employee_name"')
+    return render_template("scheduling.html", title="GRID", grid=grid)
 
 
 @app.route("/shiftChange")

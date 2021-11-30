@@ -1,47 +1,47 @@
 <html>
+
 <head>
   <title> Staff Main View </title>
-  <meta charset = "UTF-8">
-  <meta name = "viewport"
-  content = "width = device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width = device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel = "stylesheet" href = "https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
-  <script src = "https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
   <style>
-     body{
-    font-family: "Arial";
-    text-align: center;
-    margin: 2%;
-    color: black;
-  }
+    body {
+      font-family: "Arial";
+      text-align: center;
+      margin: 2%;
+      color: black;
+    }
 
-  .logout{
-    position: absolute;
-    top: 16px;
-    right: 16px;
-  }
-  
-  label{
-    font-weight: bold;
-    margin: 1%;
-  }
-  
-  input{
-    margin: 1%;
-  }
-  
-  .requestBox{
-    float: right;
-    margin-right: 15%;
-    margin-top: 10%;
-  }
+    .logout {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+    }
 
-  .calendar{
-    width: 45%;
-    float: left;
-    margin-top: 2%;
-    margin-left: 10%;
-  }
+    label {
+      font-weight: bold;
+      margin: 1%;
+    }
+
+    input {
+      margin: 1%;
+    }
+
+    .requestBox {
+      float: right;
+      margin-right: 15%;
+      margin-top: 10%;
+    }
+
+    .calendar {
+      width: 45%;
+      float: left;
+      margin-top: 2%;
+      margin-left: 10%;
+    }
   </style>
 </head>
 
@@ -52,26 +52,28 @@
     <form class="logout" action="/logout">
       <input type="submit" value="LOGOUT">
     </form>
+
+
   </div>
   <div class="requestBox">
-      <h4> Availability </h4>
-        {% for days in availability %}
-            {{days}} <br>
-        {% endfor %} <br>
-        <b> <a href = "{{ url_for('changeAvailability')}}"> Edit Availability </a> </b>
-    </div>
+    <h4> Availability </h4>
+    {% for days in availability %}
+    {{days}} <br>
+    {% endfor %} <br>
+    <b> <a href="{{ url_for('changeAvailability')}}"> Edit Availability </a> </b>
+  </div>
   </div>
 
   <div class="calendar">
-    <div id ="calendar"></div>
+    <div id="calendar"></div>
     <script>
-        let calendarEl = document.getElementById
+      let calendarEl = document.getElementById
         ('calendar');
 
-        let calendar = new FullCalendar.Calendar
+      let calendar = new FullCalendar.Calendar
         (calendarEl, {});
 
-        calendar.render();
+      calendar.render();
     </script>
   </div>
 

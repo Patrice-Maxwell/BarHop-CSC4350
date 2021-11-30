@@ -1,27 +1,33 @@
 <html>
-  <head>
-    <title> Staff Main View </title>
-    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'style.css') }}">
-  </head>
 
-  <body>
-    <h2> Welcome, Manager </h2>
+<head>
+  <title> Staff Main View </title>
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
+</head>
 
-    <div class = "calendar">
-      <h3> November </h3>
-      <div class = "inCalendar">
-        <h3> Calendar </h3>
-      </div>
+<body>
+  <div>
+    <h2> Welcome, {{name}} </h2>
+    <form class="logout" action="/logout">
+      <input type="submit" value="LOGOUT">
+    </form>
+  </div>
+  <div class="calendar">
+    <h3> November </h3>
+    <div class="inCalendar">
+      <h3> Calendar </h3>
     </div>
+  </div>
 
-    <div class = "navigation">
-      <ul>
-        <li> <a href = "{{ url_for('main') }}"> Main </a> </li>
-        <li> <a href = "{{ url_for('staffInfo') }}"> Staff Information </a> </li>
-        <li> <a href = "{{ url_for('pendingStaff') }}"> Pending New Staff </a> </li>
-        <li> <a href = "{{ url_for('shiftChange') }}"> Shift Change Requests </a> </li>
-        <li> <a href = "{{ url_for('calendar') }}"> Calendar </a> </li>
-    </div>
+  <div class="navigation">
+    <ul>
+      <li> <a href="{{ url_for('main') }}"> Main </a> </li>
+      <li> <a href="{{ url_for('staffInfo') }}"> Staff Information </a> </li>
+      <li> <a href="{{ url_for('scheduling') }}"> Scheduling </a> </li>
+      <li> <a href="{{ url_for('shiftChange') }}"> Shift Change Requests </a> </li>
+      <li> <a href="{{ url_for('calendar') }}"> Calendar </a> </li>
+  </div>
 
-  </body>
+</body>
+
 </html>
