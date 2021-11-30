@@ -239,8 +239,15 @@ def main():
 
     list = curr_user.employee_availability
     list = str(list)[1:-1]
-    list = list.replace('"', "")
-    availability = list.split(",")
+
+    list = list.replace('"', '')
+    availability = list.split(',')
+
+    if curr_user.employee_email == "a10@a":
+        return flask.render_template(
+            "managerView.html"
+        )
+
 
     return flask.render_template(
         "staffView.html",
@@ -303,9 +310,18 @@ def returnAvailability(input_email):
 
 
 # function to load staffInfo page used with manager user for sprint 2
-@app.route("/staffInfo")
+@app.route("/staffInfo", methods = ["GET", "POST"])
 def staffInfo():
-    # if flask.request.method == 'POST':
+    if flask.request.method == 'POST':
+        first_name_list, last_name_list, email_list, availability_list = getDB()
+        chosen_Staff = flask.request.form.get("staffList")
+
+        for email in email_list:
+            if chosen_Staff == email:
+                deleteStaff = Staff.query.filter_by(employee_email = email).first()
+                db.session.delete(deleteStaff)
+                db.session.commit()
+
 
     first_name_list, last_name_list, email_list, availability_list = getDB()
     length = len(first_name_list)
@@ -331,6 +347,7 @@ def logout():
     return flask.redirect("/")
 
 
+
 @app.route("/pendingStaff")
 def pendingStaff():
     return flask.render_template("pendingStaff.html")
@@ -340,6 +357,7 @@ def pendingStaff():
 def scheduling():
     grid = PythonGrid('"SELECT * FROM Staff", "employee_name"')
     return render_template("scheduling.html", title="GRID", grid=grid)
+
 
 
 @app.route("/shiftChange")

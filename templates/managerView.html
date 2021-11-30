@@ -1,23 +1,26 @@
 <html>
-
 <head>
-  <title> Staff Main View </title>
-  <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
+    <title> Manager Main View </title>
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'style.css') }}">
+
 </head>
+
 
 <body>
   <div>
     <h2> Welcome, {{name}} </h2>
     <form class="logout" action="/logout">
-      <input type="submit" value="LOGOUT">
+      <input type="submit" value="LOGOUT" class = "logoutButton">
     </form>
   </div>
   <div class="calendar">
     <h3> November </h3>
     <div class="inCalendar">
       <h3> Calendar </h3>
+
     </div>
   </div>
+
 
   <div class="navigation">
     <ul>
@@ -29,5 +32,6 @@
   </div>
 
 </body>
+
 
 </html>
