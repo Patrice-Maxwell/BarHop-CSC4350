@@ -8,7 +8,7 @@
     <h2> Welcome, Manager </h2>
 
     <form class="logout" action="/logout">
-      <input type="submit" value="LOGOUT">
+      <input type="submit" value="LOGOUT" class = "logoutButton">
     </form>
 
     <div class = "calendar">
@@ -22,7 +22,6 @@
       <ul>
         <li> <a href = "{{ url_for('main') }}"> Main </a> </li>
         <li> <a href = "{{ url_for('staffInfo') }}"> Staff Information </a> </li>
-        <li> <a href = "{{ url_for('pendingStaff') }}"> Pending New Staff </a> </li>
         <li> <a href = "{{ url_for('shiftChange') }}"> Shift Change Requests </a> </li>
         <li> <a href = "{{ url_for('calendar') }}"> Calendar </a> </li>
     </div>

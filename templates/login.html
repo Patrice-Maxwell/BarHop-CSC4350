@@ -3,24 +3,28 @@
 <head>
   <title> Log In Page</title>
   <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
+  <style>
+    body{
+    background-image: url("/static/bg.jpg");
+    background-size: cover;
+  }
+  </style>
 </head>
 
 <body>
-  <h1> Log In! </h1>
-  <form method="POST" action="/login" onSubmit="return validateForm();">
-    <fieldset>
-      <legend> Log In</legend>
-      <lable for="email"> Email:
-        <input type="email" name="email" placeholder="Enter your email"> <br>
+  <div class = "title"> <h1> BarHop </h1> </div>
+  <div class = "loginBox">
+    <form method="POST" action="/login" onSubmit="return validateForm();">
+      <fieldset>
+        <legend> Log In</legend> <br>
+        <label for = "email"> Email </label> <br>
+          <input type="email" name="email" placeholder="Enter your email" class = "inputBox"> <br> <br>
+          <input type="submit" value="LogIn" class = "submitBox"> <br> <br>
 
-        <!-- <lable for = "password"> Password:
-              <input type = "text" name = "password" placeholder = "Enter your password"> <br> -->
-
-        <input type="submit" value="LogIn"> <br>
-
-        <a href="{{ url_for('signup') }}"> Don't have an account yet? </a>
-    </fieldset>
-  </form>
+          <a href="{{ url_for('signup') }}"> Don't have an account yet? </a>
+      </fieldset>
+    </form>
+  </div>
 </body>
 
 {% if error %}
