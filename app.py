@@ -7,6 +7,7 @@ from flask_login import login_user, LoginManager, current_user, UserMixin
 import flask_login
 from flask_login.utils import login_required, logout_user
 from flask.templating import render_template
+import datetime
 
 # from pythongrid_app.grid import PythonGrid
 # from pythongrid_app.data import PythonGridDbData
@@ -30,7 +31,21 @@ class Staff(db.Model, UserMixin):
     employee_first_name = db.Column(db.String(120), nullable=False)
     employee_last_name = db.Column(db.String(120), nullable=False)
     employee_email = db.Column(db.String(180), nullable=False)
-    employee_availability = db.Column(db.String(180), nullable=True)
+
+    ea_mon_am = db.Column(db.Boolean , default = False , nullable = True)
+    ea_mon_pm = db.Column(db.Boolean , default = False , nullable = True)
+    ea_tues_am = db.Column(db.Boolean , default = False , nullable = True)
+    ea_tues_pm = db.Column(db.Boolean , default = False , nullable = True)
+    ea_wed_am = db.Column(db.Boolean , default = False , nullable = True)
+    ea_wed_pm = db.Column(db.Boolean , default = False , nullable = True)
+    ea_thurs_am = db.Column(db.Boolean , default = False , nullable = True)
+    ea_thurs_pm = db.Column(db.Boolean , default = False , nullable = True)
+    ea_fri_am = db.Column(db.Boolean , default = False , nullable = True)
+    ea_fri_pm = db.Column(db.Boolean , default = False , nullable = True)
+    ea_sat_am = db.Column(db.Boolean , default = False , nullable = True)
+    ea_sat_pm = db.Column(db.Boolean , default = False , nullable = True)
+    ea_sun_am = db.Column(db.Boolean , default = False , nullable = True)
+    ea_sun_pm = db.Column(db.Boolean , default = False , nullable = True)
 
     def get_id(self):
         return self.task_id
@@ -65,19 +80,18 @@ def getDB():
     first_name_list = []
     last_name_list = []
     email_list = []
-    availability_list = []
-
+    
     for item in items:
         first_name_list.append(item.employee_first_name)
         last_name_list.append(item.employee_last_name)
         email_list.append(item.employee_email)
-        availability_list.append(item.employee_availability)
+        
 
     return (
         first_name_list,
         last_name_list,
         email_list,
-        availability_list,
+        
     )
 
 
@@ -146,12 +160,12 @@ def login_post():
         )
 
 
-def already_User(first_name_list, last_name_list, email_list, availability_list):
+def already_User(first_name_list, last_name_list, email_list):
     alreadyUser = False
     input_firstName = flask.request.form.get("firstName")
     input_lastName = flask.request.form.get("lastName")
     input_email = flask.request.form.get("email")
-    input_availability = flask.request.form.get("availability")
+    
     # input_password = flask.request.form.get("password")
 
     for firstName in first_name_list:
@@ -163,10 +177,7 @@ def already_User(first_name_list, last_name_list, email_list, availability_list)
     for email in email_list:
         if email == input_email:
             alreadyUser = True
-    for availability in availability_list:
-        if availability == input_availability:
-            alreadyUser = True
-    # for password in password_list:
+  
     #     if (password == input_password):
     #         alreadyUser = True
 
@@ -176,10 +187,10 @@ def already_User(first_name_list, last_name_list, email_list, availability_list)
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if flask.request.method == "POST":
-        first_name_list, last_name_list, email_list, availability_list = getDB()
+        first_name_list, last_name_list, email_list = getDB()
 
         input_firstName, input_lastName, input_email, alreadyUser = already_User(
-            first_name_list, last_name_list, email_list, availability_list
+            first_name_list, last_name_list, email_list 
         )
 
         if alreadyUser == False:
@@ -187,7 +198,20 @@ def signup():
                 employee_first_name=input_firstName,
                 employee_last_name=input_lastName,
                 employee_email=input_email,
-                employee_availability="test",
+                ea_mon_am = flask.request.form.get("mon_am"),
+                ea_mon_pm = flask.request.form.get("mon_pm"),
+                ea_tues_am = flask.request.form.get("tues_am"),
+                ea_tues_pm = flask.request.form.get("tues_pm"),
+                ea_wed_am = flask.request.form.get("wed_am"),
+                ea_wed_pm = flask.request.form.get("wed_pm"),
+                ea_thurs_am = flask.request.form.get("thurs_am"),
+                ea_thurs_pm = flask.request.form.get("thurs_pm"),
+                ea_fri_am = flask.request.form.get("fri_am"),
+                ea_fri_pm = flask.request.form.get("fri_pm"),
+                ea_sat_am = flask.request.form.get("sat_am"),
+                ea_sat_pm = flask.request.form.get("sat_pm"),
+                ea_sun_am = flask.request.form.get("sun_am"),
+                ea_sun_pm = flask.request.form.get("sun_pm")
             )
             db.session.add(new_employee)
             db.session.commit()
@@ -295,14 +319,7 @@ def checkName(input_email):
 # function used for testing, return the availability for the chosen user
 def returnAvailability(input_email):
 
-    # <<<<<<< Rice_branch
-    # curr_user = Staff.query.filter_by(input_email=current_user.employee_email).first()
-
-    # availability = curr_user.employee_availability
-
-    # return availability
-
-    # =======
+   
     user = Staff.query.filter_by(employee_email=input_email).first()
     availability = user.employee_availability
 
@@ -355,8 +372,11 @@ def pendingStaff():
 
 @app.route("/scheduling")
 def scheduling():
-    grid = PythonGrid('"SELECT * FROM Staff", "employee_name"')
-    return render_template("scheduling.html", title="GRID", grid=grid)
+    my_date = datetime.date.today()
+    first_name_list, last_name_list, email_list, availability_list = getDB()
+    
+    year, week_num, day_of_week = my_date.isocalendar()
+    return render_template("scheduling.html" , week_num = week_num ,year =year ,first_name_list = first_name_list)
 
 
 

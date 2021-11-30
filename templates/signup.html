@@ -1,68 +1,70 @@
 <html>
-    <head>
-        <title> Sign Up Page</title>
-        <link rel = "stylesheet" href = "{{ url_for('static', filename = 'style.css') }}">
-        <style>
-          body{
-          background-image: url("/static/bg.jpg");
-          background-size: cover;
-        }
-        </style>
-    </head>
-    
-    <body>
-      <h1> Sign Up! </h1>
-      <div class = "signupBox">
-        <form method = "POST" action = "/signup" onSubmit = "return validateForm();">
-          <fieldset>
-            <legend> Sign Up </legend> <br>
-            <label for = "name"> Name </label> <br>
-            <input type = "text" name = "firstName" placeholder = "Enter your First name" class = "inputBox"> <br>
-            <input type = "text" name = "lastName" placeholder = "Enter your Last name" class = "inputBox"> <br> <br>
 
-            <label for = "email"> Email </label> <br>
-            <input type = "email" name = "email" placeholder = "Enter your email" class = "inputBox"> <br> <br>
+<head>
+  <title> Sign Up Page</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
+  <style>
+    body {
+      background-image: url("/static/bg.jpg");
+      background-size: cover;
+    }
+  </style>
+</head>
 
-            <label> Availability </label> <br> <br>
-            <input type = "checkbox" id = "Monday" name = "availability" value = "Monday Morning">
-            <label for = "Monday Morning"> Monday Morning</label>
-            <input type = "checkbox" id = "Monday" name = "availability" value = "Monday Night">
-            <label for = "Monday Night"> Monday Night</label> <br>
+<body>
+  <h1> Sign Up! </h1>
+  <div class="signupBox">
+    <form method="POST" action="/signup" onSubmit="return validateForm();">
+      <fieldset>
+        <legend> Sign Up </legend> <br>
+        <label for="name"> Name </label> <br>
+        <input type="text" name="firstName" placeholder="Enter your First name" class="inputBox"> <br>
+        <input type="text" name="lastName" placeholder="Enter your Last name" class="inputBox"> <br> <br>
 
-            <input type = "checkbox" id = "Tuesday" name = "availability" value = "Tuesday Morning">
-            <label for = "Tuesday Morning"> Tuesday Morning</label>
-            <input type = "checkbox" id = "Tuesday" name = "availability" value = "Tuesday Night">
-            <label for = "Tuesday Night"> Tuesday Night</label> <br>
+        <label for="email"> Email </label> <br>
+        <input type="email" name="email" placeholder="Enter your email" class="inputBox"> <br> <br>
 
-            <input type = "checkbox" id = "Wednesday" name = "availability" value = "Wednesday Morning">
-            <label for = "Wednesday Morning"> Wednesday Morning</label>
-            <input type = "checkbox" id = "Wednesday" name = "availability" value = "Wednesday Night">
-            <label for = "Wednesday Night"> Wednesday Night</label> <br>
+        <label> Availability </label> <br> <br>
+        <input type="checkbox" name="mon_am" checked="True" value="Monday Morning">
+        <label for="Monday Morning"> Monday Morning</label>
+        <input type="checkbox" name="mon_pm" checked="True" value="Monday Night">
+        <label for="Monday Night"> Monday Night</label> <br>
 
-            <input type = "checkbox" id = "Thursday" name = "availability" value = "Thursday Morning">
-            <label for = "Thursday Morning"> Thursday Morning</label>
-            <input type = "checkbox" id = "Thursday" name = "availability" value = "Thursday Night">
-            <label for = "Thursday Night"> Thursday Night</label> <br>
+        <input type="checkbox" name="tues_am" checked="True" value="Tuesday Morning">
+        <label for="Tuesday Morning"> Tuesday Morning</label>
+        <input type="checkbox" name="tues_pm" checked="True" value="Tuesday Night">
+        <label for="Tuesday Night"> Tuesday Night</label> <br>
 
-            <input type = "checkbox" id = "Friday" name = "availability" value = "Friday Morning">
-            <label for = "Friday Morning"> Friday Morning</label>
-            <input type = "checkbox" id = "Friday" name = "availability" value = "Friday Night">
-            <label for = "Friday Night"> Friday Night</label> <br>
+        <input type="checkbox" name="wed_am" checked="True" value="Wednesday Morning">
+        <label for="Wednesday Morning"> Wednesday Morning</label>
+        <input type="checkbox" name="wed_pm" checked="True" value="Wednesday Night">
+        <label for="Wednesday Night"> Wednesday Night</label> <br>
 
-            <input type = "checkbox" id = "Saturday" name = "availability" value = "Saturday Morning">
-            <label for = "Saturday Morning"> Saturday Morning</label>
-            <input type = "checkbox" id = "Saturday" name = "availability" value = "Saturday Night">
-            <label for = "Saturday Night"> Saturday Night</label> <br>
+        <input type="checkbox" name="thurs_am" checked="True" value="Thursday Morning">
+        <label for="Thursday Morning"> Thursday Morning</label>
+        <input type="checkbox" name="thurs_pm" checked="True" value="Thursday Night">
+        <label for="Thursday Night"> Thursday Night</label> <br>
 
-            <input type = "checkbox" id = "Sunday" name = "availability" value = "Sunday Morning">
-            <label for = "Sunday Morning"> Sunday Morning</label>
-            <input type = "checkbox" id = "Sunday" name = "availability" value = "Sunday Night">
-            <label for = "Sunday Night"> Sunday Night</label> <br> <br>
+        <input type="checkbox" name="fri_am" checked="True" value="Friday Morning">
+        <label for="Friday Morning"> Friday Morning</label>
+        <input type="checkbox" name="fri_pm" checked="True" value="Friday Night">
+        <label for="Friday Night"> Friday Night</label> <br>
 
-            <input type = "submit" value = "SignUp" class = "submitBox">
-          </fieldset>
-        </form>
-        <br> <br>
-      </div>
-    </body>
+        <input type="checkbox" name="sat_am" checked="True" value="Saturday Morning">
+        <label for="Saturday Morning"> Saturday Morning</label>
+        <input type="checkbox" name="sat_pm" checked="True" value="Saturday Night">
+        <label for="Saturday Night"> Saturday Night</label> <br>
+
+        <input type="checkbox" name="sun_am" checked="True" value="Sunday Morning">
+        <label for="Sunday Morning"> Sunday Morning</label>
+        <input type="checkbox" name="sun_am" checked="True" value="Sunday Night">
+        <label for="Sunday Night"> Sunday Night</label> <br> <br>
+
+        <input type="submit" value="SignUp" class="submitBox">
+      </fieldset>
+    </form>
+    <br> <br>
+  </div>
+</body>
+
 </html>

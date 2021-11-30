@@ -6,9 +6,65 @@
 </head>
 
 <body>
-    <h1>Week of {} Schedule</h1>
 
-    <h2>Staff</h2>
+    <div>
+        <h1>Week of {{week_num}} , {{year}} Schedule</h1>
+        <form class="logout" action="/logout">
+            <input type="submit" value="LOGOUT" class="logoutButton">
+        </form>
+    </div>
+    <div class="staff-window">
+        <h2>Staff</h2>
+        <table>
+            <tr>
+                <th>Employee Name</th>
+                <td>Monday</td>
+                <td>Tuesday</td>
+                <td>Wednesday</td>
+                <td>Thurday</td>
+                <td>Friday</td>
+                <td>Saturday </td>
+                <td>Sunday </td>
+            </tr>
+
+            <tr>
+                {% for name in first_name_list %}
+                <td>{{name}}</td>
+                <td><input type="checkbox" id="mon_am" name="mon_am"> AM <input type="checkbox" id="mon_pm"
+                        name="mon_pm" disabled>PM
+                </td>
+                <td><input type="checkbox" id="tues_am" name="tues_am"> AM <input type="checkbox" id="tues_pm"
+                        name="tues_pm">PM
+                </td>
+                <td><input type="checkbox" id="wed_am" name="wed_am"> AM <input type="checkbox" id="wed_pm"
+                        name="wed_pm">PM
+                </td>
+                <td><input type="checkbox" id="thurs_am" name="thurs_am"> AM <input type="checkbox" id="thurs_pm"
+                        name="thurs_pm">PM</td>
+                <td><input type="checkbox" id="fri_am" name="fri_am"> AM <input type="checkbox" id="fri_pm"
+                        name="fri_pm">PM
+                </td>
+                <td><input type="checkbox" id="sat_am" name="sat_am"> AM <input type="checkbox" id="sat_pm"
+                        name="sat_pm">PM
+                </td>
+                <td><input type="checkbox" id="sun_am" name="sun_am"> AM <input type="checkbox" id="sun_pm"
+                        name="sun_pm">PM
+                </td>
+
+            </tr>
+            {% endfor %}
+
+
+        </table>
+    </div>
+    <div class="navigation">
+        <ul>
+            <li> <a href="{{ url_for('main') }}"> Main </a> </li>
+            <li> <a href="{{ url_for('staffInfo') }}"> Staff Information </a> </li>
+            <li> <a href="{{ url_for('scheduling') }}"> Scheduling </a> </li>
+            <li> <a href="{{ url_for('shiftChange') }}"> Shift Change Requests </a> </li>
+            <li> <a href="{{ url_for('calendar') }}"> Calendar </a> </li>
+    </div>
 </body>
 
 </html>
