@@ -272,12 +272,6 @@ def logout():
     logout_user()
     return flask.redirect("/")
 
-
-@app.route("/pendingStaff")
-def pendingStaff():
-    return flask.render_template("pendingStaff.html")
-
-
 @app.route("/shiftChange")
 def shiftChange():
     return flask.render_template("shiftChange.html")
