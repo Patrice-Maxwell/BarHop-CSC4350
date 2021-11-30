@@ -220,3 +220,21 @@ input{
   float: left;
   margin-left: 4%;
 }
+
+.staff-window{
+  width: max-content;
+  height: max-content;
+}
+.staff-row::after{content: ""; display: table; clear: both;}
+.staff-column{float: left; width:25%;}
+table , th ,td ,tr{
+  border: 1px solid white ;
+  border-collapse: collapse;
+  border-radius: 10px;
+}
+th ,td ,tr{
+  background-color: #96d4d4;
+}
+table{
+  width: fit-content;
+}
