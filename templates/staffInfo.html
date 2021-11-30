@@ -6,27 +6,48 @@
 
   <body>
     <h1> STAFF INFO </h1>
-    {% for i in range(length) %}
-      <div class = "staff">
-        <img src = "/static/user.png">
-        <div class = info>
-          Name: {{first_name_list[i]}} {{last_name_list[i]}}<br>
-          Email: {{email_list[i]}} <br>
-          Position: unknown <br>
+
+    <form class="logout" action="/logout">
+      <input type="submit" value="LOGOUT" class = "logoutButton">
+    </form>
+
+    <div class = "staffContainer">
+      {% for i in range(length) %}
+        <div class = "staff">
+          <img src = "/static/user.png">
+          <div class = info>
+            Name: {{first_name_list[i]}} {{last_name_list[i]}}<br>
+            Email: {{email_list[i]}} <br>
+            {% if email_list[i] == "a10@a" %}
+              Position: Manager <br>
+            {% else %}
+              Position: Staff <br>
+            {% endif %}
+          </div>
         </div>
-        <form method = "POST"> 
-        <input type = "submit" value = "Remove">
+      {% endfor %}
+    </div>
+
+    <div class = "box">
+      <div class = "removeStaff">
+        <b> Choose staff to remove </b>
+        <form method = "POST" action = "/staffInfo">
+          <select name = "staffList" id = "staffList">
+            {% for i in range(length) %}
+            <option value = "{{email_list[i]}}"> {{first_name_list[i]}} {{last_name_list[i]}} </option> 
+            {% endfor %}
+          </select>
+          <input type = "submit" value = "Remove" class = "submitBox"> 
         </form>
       </div>
-    {% endfor %}
 
-    <div class = "navigation">
-      <ul>
-        <li> <a href = "{{ url_for('main') }}"> Main </a> </li>
-        <li> <a href = "{{ url_for('staffInfo') }}"> Staff Information </a> </li>
-        <li> <a href = "{{ url_for('pendingStaff') }}"> Pending New Staff </a> </li>
-        <li> <a href = "{{ url_for('shiftChange') }}"> Shift Change Requests </a> </li>
-        <li> <a href = "{{ url_for('calendar') }}"> Calendar </a> </li>
+      <div class = "navigation">
+        <ul>
+          <li> <a href = "{{ url_for('main') }}"> Main </a> </li>
+          <li> <a href = "{{ url_for('staffInfo') }}"> Staff Information </a> </li>
+          <li> <a href = "{{ url_for('shiftChange') }}"> Shift Change Requests </a> </li>
+          <li> <a href = "{{ url_for('calendar') }}"> Calendar </a> </li>
+      </div>
     </div>
   </body>
 </html>

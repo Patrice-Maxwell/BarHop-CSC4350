@@ -8,49 +8,77 @@
   <link rel = "stylesheet" href = "https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
   <script src = "https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
   <style>
-     body{
-    font-family: "Arial";
-    text-align: center;
-    margin: 2%;
-    color: black;
-  }
 
-  .logout{
-    position: absolute;
-    top: 16px;
-    right: 16px;
-  }
-  
-  label{
-    font-weight: bold;
-    margin: 1%;
-  }
-  
-  input{
-    margin: 1%;
-  }
-  
-  .requestBox{
-    float: right;
-    margin-right: 15%;
-    margin-top: 10%;
-  }
+    body{
+      font-family: "Arial";
+      text-align: center;
+      margin: 2%;
+      color: black;
+      background-image: url("/static/bg2.jpg");
+      background-size: cover;
+    }
 
-  .calendar{
-    width: 45%;
-    float: left;
-    margin-top: 2%;
-    margin-left: 10%;
-  }
+    .welcome{
+      border: none;
+      background-color: #FFFBF0;
+      border-radius: 80%;
+      width: 40%;
+      margin-left: 30%;
+      height: 7%;
+    }
+
+    .welcome h2{
+      padding: 1%;
+    }
+
+    .logout{
+      position: absolute;
+      top: 16px;
+      right: 16px;
+    }
+
+    .logoutButton{
+      border-radius: 17px;
+      background-color: #E1AB18;
+    }
+
+    .logoutButton:hover{
+      background-color: #F0C95D;
+    }
+    
+    label{
+      font-weight: bold;
+      margin: 1%;
+    }
+    
+    input{
+      margin: 1%;
+    }
+    
+    .requestBox{
+      float: right;
+      margin-right: 13%;
+      margin-top: 10%;
+      background-color: #FFFBF0;
+      width: 15%;
+    }
+
+    .calendar{
+      width: 43%;
+      float: left;
+      margin-top: 2%;
+      margin-left: 10%;
+      background-color: white;
+    }
   </style>
 </head>
 
 <body>
   <div>
-    <h2> Welcome, {{name}}</h2>
+    <div class = "welcome"> <h2> Welcome, {{name}}</h2> </div>
 
     <form class="logout" action="/logout">
-      <input type="submit" value="LOGOUT">
+      <input type="submit" value="LOGOUT" class = "logoutButton">
     </form>
   </div>
   <div class="requestBox">
@@ -59,6 +87,7 @@
             {{days}} <br>
         {% endfor %} <br>
         <b> <a href = "{{ url_for('changeAvailability')}}"> Edit Availability </a> </b>
+        <br> <br>
     </div>
   </div>
 
@@ -73,7 +102,9 @@
 
         calendar.render();
     </script>
+
   </div>
+
 
 </body>
 
