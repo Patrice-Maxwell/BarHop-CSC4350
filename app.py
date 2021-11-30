@@ -16,9 +16,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = flask.Flask(__name__)
 app.config[
-    "SQLALCHEMY_DATABASE_URI"
-] = "postgresql://sggmedeucfzqbo:817307a94016431c320ff1403aa1b2f95c7bd71da6abc999ed157e826910c852@ec2-54-157-16-125.compute-1.amazonaws.com:5432/d61tam9105a164"
-
+    'SQLALCHEMY_DATABASE_URI'
+] = 'postgresql://jfrudxnfhgiarz:37dbab76396127b98a5e05f2ce6ffa61dc24e9c9f7b9857273f0db644acff864@ec2-34-199-224-49.compute-1.amazonaws.com:5432/d5ciau5h4uuf4i'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 app.secret_key = b"os.getenv('APP_SECRET_KEY')"
@@ -31,7 +30,6 @@ class Staff(db.Model, UserMixin):
     employee_first_name = db.Column(db.String(120), nullable=False)
     employee_last_name = db.Column(db.String(120), nullable=False)
     employee_email = db.Column(db.String(180), nullable=False)
-
     ea_mon_am = db.Column(db.Boolean , default = False , nullable = True)
     ea_mon_pm = db.Column(db.Boolean , default = False , nullable = True)
     ea_tues_am = db.Column(db.Boolean , default = False , nullable = True)
@@ -61,6 +59,7 @@ class Manager(db.Model, UserMixin):
 
 
 db.create_all()
+
 
 #### Managers are not allowed to signup , must be manually added to manager database
 new_manager_john = Manager(
