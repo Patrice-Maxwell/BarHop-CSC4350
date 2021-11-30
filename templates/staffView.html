@@ -1,19 +1,22 @@
 <html>
+
 <head>
   <title> Staff Main View </title>
-  <meta charset = "UTF-8">
-  <meta name = "viewport"
-  content = "width = device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width = device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel = "stylesheet" href = "https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
-  <script src = "https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
   <style>
 
+
     body{
+
       font-family: "Arial";
       text-align: center;
       margin: 2%;
       color: black;
+
       background-image: url("/static/bg2.jpg");
       background-size: cover;
     }
@@ -36,6 +39,7 @@
       top: 16px;
       right: 16px;
     }
+
 
     .logoutButton{
       border-radius: 17px;
@@ -69,6 +73,7 @@
       margin-top: 2%;
       margin-left: 10%;
       background-color: white;
+
     }
   </style>
 </head>
@@ -80,8 +85,11 @@
     <form class="logout" action="/logout">
       <input type="submit" value="LOGOUT" class = "logoutButton">
     </form>
+
+
   </div>
   <div class="requestBox">
+
       <h4> Availability </h4>
         {% for days in availability %}
             {{days}} <br>
@@ -89,18 +97,19 @@
         <b> <a href = "{{ url_for('changeAvailability')}}"> Edit Availability </a> </b>
         <br> <br>
     </div>
-  </div>
+
+ 
 
   <div class="calendar">
-    <div id ="calendar"></div>
+    <div id="calendar"></div>
     <script>
-        let calendarEl = document.getElementById
+      let calendarEl = document.getElementById
         ('calendar');
 
-        let calendar = new FullCalendar.Calendar
+      let calendar = new FullCalendar.Calendar
         (calendarEl, {});
 
-        calendar.render();
+      calendar.render();
     </script>
 
   </div>
