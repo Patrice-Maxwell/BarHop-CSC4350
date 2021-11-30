@@ -18,4 +18,4 @@ Sprint 2 -
     nameless-wave-87009
 
   Database-url:
-    postgresql://sggmedeucfzqbo:817307a94016431c320ff1403aa1b2f95c7bd71da6abc999ed157e826910c852@ec2-54-157-16-125.compute-1.amazonaws.com:5432/d61tam9105a164
+    postgresql://jfrudxnfhgiarz:37dbab76396127b98a5e05f2ce6ffa61dc24e9c9f7b9857273f0db644acff864@ec2-34-199-224-49.compute-1.amazonaws.com:5432/d5ciau5h4uuf4i
