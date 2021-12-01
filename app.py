@@ -69,18 +69,19 @@ def getDB():
     first_name_list = []
     last_name_list = []
     email_list = []
+    availability_list = []
     
     for item in items:
         first_name_list.append(item.employee_first_name)
         last_name_list.append(item.employee_last_name)
         email_list.append(item.employee_email)
-        
+        availability_list.append(item.employee_availability)
 
     return (
         first_name_list,
         last_name_list,
         email_list,
-        
+        availability_list
     )
 
 
@@ -178,7 +179,7 @@ def already_User(first_name_list, last_name_list, email_list):
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if flask.request.method == "POST":
-        first_name_list, last_name_list, email_list = getDB()
+        first_name_list, last_name_list, email_list , availability_list= getDB()
 
         input_firstName, input_lastName, input_email, alreadyUser = already_User(
             first_name_list, last_name_list, email_list 
@@ -227,9 +228,9 @@ def main():
 
     # first_name_list, last_name_list, email_list, availability_list = getDB()
     # availability = []
-    # curr_user = Staff.query.filter_by(
-    #     employee_email=current_user.employee_email
-    # ).first()
+    curr_user = Staff.query.filter_by(
+         employee_email=current_user.employee_email
+     ).first()
 
     # name = curr_user.employee_first_name
     # list = name.employee_availability
@@ -279,7 +280,6 @@ def main():
 
         availability=availability_list,
         availability_times=data,
-
     )
 
 
@@ -310,6 +310,11 @@ def changeAvailability():
 
     return flask.render_template("changeAvailability.html")
 
+@app.route("/managerView")
+def managerView():
+    return flask.render_template(
+        "managerView.html"
+    )
 
 # function used for testing, check if email is in the database or not
 def checkEmail(input_email):
@@ -393,7 +398,7 @@ def pendingStaff():
 @app.route("/scheduling")
 def scheduling():
     my_date = datetime.date.today()
-    first_name_list, last_name_list, email_list = getDB()
+    first_name_list, last_name_list, email_list , availability_list = getDB()
     
     year, week_num, day_of_week = my_date.isocalendar()
     return render_template("scheduling.html" , week_num = week_num ,year =year ,first_name_list = first_name_list)
