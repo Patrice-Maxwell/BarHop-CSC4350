@@ -8,7 +8,65 @@
       background-image: url("/static/bg.jpg");
       background-size: cover;
     }
+
+
+    #availabilityInputs {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #timeDiv {
+      display: flex;
+      flex-direction: row;
+    }
   </style>
+  <script>
+
+    function addMoreAvailabilities() {
+      var div = document.getElementById("availabilityInputs");
+      var timeDiv = document.createElement("div");
+      timeDiv.id = "timeDiv";
+
+      var start_label = document.createElement('label');
+      start_label.innerText = "Availability Start"
+      var start_time = document.createElement('input');
+      start_time.id = "meeting-time-start-time"
+      start_time.name = "availability-start-time"
+      start_time.min = "1999-01-01T00:00"
+      start_time.max = "2999-12-31T23:59"
+      start_time.type = "time"
+      timeDiv.appendChild(start_label);
+      timeDiv.appendChild(start_time);
+
+
+      var end_label = document.createElement('label');
+      end_label.innerText = "Availability End"
+      var end_time = document.createElement('input');
+      end_time.id = "meeting-time-end"
+      end_time.name = "availability-end-time"
+      end_time.min = "1999-01-01T00:00"
+      end_time.max = "2999-12-31T23:59"
+      end_time.type = "time"
+      timeDiv.appendChild(end_label);
+      timeDiv.appendChild(end_time);
+
+
+      var date_label = document.createElement('label');
+      date_label.innerText = "Availability Date"
+      var date = document.createElement('input');
+      date.id = "meeting-time-date"
+      date.name = "availability-date"
+      date.min = "1999-01-01"
+      date.max = "2999-12-31"
+      date.type = "date"
+      timeDiv.appendChild(date_label);
+      timeDiv.appendChild(date); 
+
+      div.appendChild(timeDiv);
+    }
+  </script>
+
+
 </head>
 
 <body>
@@ -25,44 +83,26 @@
         <input type="email" name="email" placeholder="Enter your email" class="inputBox"> <br> <br>
 
         <label> Availability </label> <br> <br>
-        <input type="checkbox" name="mon_am" checked="True" value="Monday Morning">
-        <label for="Monday Morning"> Monday Morning</label>
-        <input type="checkbox" name="mon_pm" checked="True" value="Monday Night">
-        <label for="Monday Night"> Monday Night</label> <br>
 
-        <input type="checkbox" name="tues_am" checked="True" value="Tuesday Morning">
-        <label for="Tuesday Morning"> Tuesday Morning</label>
-        <input type="checkbox" name="tues_pm" checked="True" value="Tuesday Night">
-        <label for="Tuesday Night"> Tuesday Night</label> <br>
 
-        <input type="checkbox" name="wed_am" checked="True" value="Wednesday Morning">
-        <label for="Wednesday Morning"> Wednesday Morning</label>
-        <input type="checkbox" name="wed_pm" checked="True" value="Wednesday Night">
-        <label for="Wednesday Night"> Wednesday Night</label> <br>
-
-        <input type="checkbox" name="thurs_am" checked="True" value="Thursday Morning">
-        <label for="Thursday Morning"> Thursday Morning</label>
-        <input type="checkbox" name="thurs_pm" checked="True" value="Thursday Night">
-        <label for="Thursday Night"> Thursday Night</label> <br>
-
-        <input type="checkbox" name="fri_am" checked="True" value="Friday Morning">
-        <label for="Friday Morning"> Friday Morning</label>
-        <input type="checkbox" name="fri_pm" checked="True" value="Friday Night">
-        <label for="Friday Night"> Friday Night</label> <br>
-
-        <input type="checkbox" name="sat_am" checked="True" value="Saturday Morning">
-        <label for="Saturday Morning"> Saturday Morning</label>
-        <input type="checkbox" name="sat_pm" checked="True" value="Saturday Night">
-        <label for="Saturday Night"> Saturday Night</label> <br>
-
-        <input type="checkbox" name="sun_am" checked="True" value="Sunday Morning">
-        <label for="Sunday Morning"> Sunday Morning</label>
-        <input type="checkbox" name="sun_am" checked="True" value="Sunday Night">
-        <label for="Sunday Night"> Sunday Night</label> <br> <br>
+        <div id='availabilityInputs'>
+          <div id='timeDiv'>
+            <label> Availability Start</label>
+            <input type="time" id="meeting-time-start" name="availability-start-time" min="1999-01-01T00:00"
+              max="2999-12-31T23:59" placeholder = "00:00">
+            <label> Availability End</label>
+            <input type="time" id="meeting-time-end" name="availability-end-time" min="1999-01-01T00:00" max="2999-12-31T23:59" placeholder = "00:00">
+            <label> Availability Date</label>
+            <input type="date" id="meeting-time-date" name="availability-date" min="1999-01-01" max="2999-12-31" placeholder = "YYYY-MM-DD">
+          </div>
+        </div>
 
         <input type="submit" value="SignUp" class="submitBox">
       </fieldset>
     </form>
+
+    <button onclick="addMoreAvailabilities()"> Add More Availability Times </button>
+
     <br> <br>
   </div>
 </body>
