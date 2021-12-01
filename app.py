@@ -8,6 +8,8 @@ import flask_login
 from flask_login.utils import login_required, logout_user
 from flask.templating import render_template
 
+import json
+
 # from pythongrid_app.grid import PythonGrid
 # from pythongrid_app.data import PythonGridDbData
 # from pythongrid_app.export import PythonGridDbExport
@@ -30,7 +32,7 @@ class Staff(db.Model, UserMixin):
     employee_first_name = db.Column(db.String(120), nullable=False)
     employee_last_name = db.Column(db.String(120), nullable=False)
     employee_email = db.Column(db.String(180), nullable=False)
-    employee_availability = db.Column(db.String(180), nullable=True)
+    employee_availability = db.Column(db.String(65535), nullable=True)
 
     def get_id(self):
         return self.task_id
@@ -151,7 +153,6 @@ def already_User(first_name_list, last_name_list, email_list, availability_list)
     input_firstName = flask.request.form.get("firstName")
     input_lastName = flask.request.form.get("lastName")
     input_email = flask.request.form.get("email")
-    input_availability = flask.request.form.get("availability")
     # input_password = flask.request.form.get("password")
 
     for firstName in first_name_list:
@@ -162,9 +163,6 @@ def already_User(first_name_list, last_name_list, email_list, availability_list)
             alreadyUser = True
     for email in email_list:
         if email == input_email:
-            alreadyUser = True
-    for availability in availability_list:
-        if availability == input_availability:
             alreadyUser = True
     # for password in password_list:
     #     if (password == input_password):
@@ -182,12 +180,24 @@ def signup():
             first_name_list, last_name_list, email_list, availability_list
         )
 
+        input_availability_start_time = flask.request.form.getlist(
+            "availability-start-time"
+        )
+        input_availability_end_time = flask.request.form.getlist(
+            "availability-end-time"
+        )
+        input_availability_date = flask.request.form.getlist("availability-date")
+        # Add validation that all 3 above are of equal length
+        availabilities = []
+        for i in range(len(input_availability_date)):
+            avail_string = f"{input_availability_date[i]}_{input_availability_start_time[i]}_{input_availability_end_time[i]}"
+            availabilities.append(avail_string)
         if alreadyUser == False:
             new_employee = Staff(
                 employee_first_name=input_firstName,
                 employee_last_name=input_lastName,
                 employee_email=input_email,
-                employee_availability="test",
+                employee_availability="#".join(availabilities),
             )
             db.session.add(new_employee)
             db.session.commit()
@@ -237,22 +247,29 @@ def main():
         employee_email=current_user.employee_email
     ).first()
 
-    list = curr_user.employee_availability
-    list = str(list)[1:-1]
+    data = []
+    availability = curr_user.employee_availability
+    print(availability)
+    availability_list = availability.split("#")
+    for avail in availability_list:
+        split_date = avail.split("_")
+        start = f"{split_date[0]}T{split_date[1]}"
+        end = f"{split_date[0]}T{split_date[2]}"
+        data.append({"start": start, "end": end, "allDay": False})
 
-    list = list.replace('"', '')
-    availability = list.split(',')
-
+    for i in range(len(availability_list)):
+        split_list = availability_list[i].split("_")
+        availability_list[
+            i
+        ] = f"{split_list[0]}: from {split_list[1]} to {split_list[2]}"
     if curr_user.employee_email == "a10@a":
-        return flask.render_template(
-            "managerView.html"
-        )
-
+        return flask.render_template("managerView.html")
 
     return flask.render_template(
         "staffView.html",
         name=name,
-        availability=availability,
+        availability=availability_list,
+        availability_times=data,
     )
 
 
@@ -263,10 +280,20 @@ def changeAvailability():
             employee_email=current_user.employee_email
         ).first()
 
-        input_availability = flask.request.form.getlist("availability")
-        print(input_availability)
-        curr_user.employee_availability = input_availability
-        print(curr_user.employee_availability)
+        input_availability_start_time = flask.request.form.getlist(
+            "availability-start-time"
+        )
+        input_availability_end_time = flask.request.form.getlist(
+            "availability-end-time"
+        )
+        input_availability_date = flask.request.form.getlist("availability-date")
+        # Add validation that all 3 above are of equal length
+        availabilities = []
+        for i in range(len(input_availability_date)):
+            avail_string = f"{input_availability_date[i]}_{input_availability_start_time[i]}_{input_availability_end_time[i]}"
+            availabilities.append(avail_string)
+
+        curr_user.employee_availability = "#".join(availabilities)
         db.session.commit()
 
         return flask.redirect("/main")
@@ -310,18 +337,17 @@ def returnAvailability(input_email):
 
 
 # function to load staffInfo page used with manager user for sprint 2
-@app.route("/staffInfo", methods = ["GET", "POST"])
+@app.route("/staffInfo", methods=["GET", "POST"])
 def staffInfo():
-    if flask.request.method == 'POST':
+    if flask.request.method == "POST":
         first_name_list, last_name_list, email_list, availability_list = getDB()
         chosen_Staff = flask.request.form.get("staffList")
 
         for email in email_list:
             if chosen_Staff == email:
-                deleteStaff = Staff.query.filter_by(employee_email = email).first()
+                deleteStaff = Staff.query.filter_by(employee_email=email).first()
                 db.session.delete(deleteStaff)
                 db.session.commit()
-
 
     first_name_list, last_name_list, email_list, availability_list = getDB()
     length = len(first_name_list)
@@ -337,7 +363,16 @@ def staffInfo():
 
 @app.route("/calendar")
 def calendar():
-    return render_template("calendar.html")
+    data = {
+        "availability": [
+            {
+                "start": "2021-12-10T00:00:00",
+                "end": "2021-12-10T24:00:00",
+                "display": "background",
+            }
+        ]
+    }
+    return render_template("calendar.html", data=data)
 
 
 @app.route("/logout")
@@ -345,7 +380,6 @@ def logout():
     print(current_user)
     logout_user()
     return flask.redirect("/")
-
 
 
 @app.route("/pendingStaff")
@@ -357,7 +391,6 @@ def pendingStaff():
 def scheduling():
     grid = PythonGrid('"SELECT * FROM Staff", "employee_name"')
     return render_template("scheduling.html", title="GRID", grid=grid)
-
 
 
 @app.route("/shiftChange")
