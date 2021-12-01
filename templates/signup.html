@@ -1,68 +1,105 @@
 <html>
-    <head>
-        <title> Sign Up Page</title>
-        <link rel = "stylesheet" href = "{{ url_for('static', filename = 'style.css') }}">
-        <style>
-          body{
-          background-image: url("/static/bg.jpg");
-          background-size: cover;
-        }
-        </style>
-    </head>
-    
-    <body>
-      <h1> Sign Up! </h1>
-      <div class = "signupBox">
-        <form method = "POST" action = "/signup" onSubmit = "return validateForm();">
-          <fieldset>
-            <legend> Sign Up </legend> <br>
-            <label for = "name"> Name </label> <br>
-            <input type = "text" name = "firstName" placeholder = "Enter your First name" class = "inputBox"> <br>
-            <input type = "text" name = "lastName" placeholder = "Enter your Last name" class = "inputBox"> <br> <br>
 
-            <label for = "email"> Email </label> <br>
-            <input type = "email" name = "email" placeholder = "Enter your email" class = "inputBox"> <br> <br>
+<head>
+  <title> Sign Up Page</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
+  <style>
+    body {
+      background-image: url("/static/bg.jpg");
+      background-size: cover;
+    }
 
-            <label> Availability </label> <br> <br>
-            <input type = "checkbox" id = "Monday" name = "availability" value = "Monday Morning">
-            <label for = "Monday Morning"> Monday Morning</label>
-            <input type = "checkbox" id = "Monday" name = "availability" value = "Monday Night">
-            <label for = "Monday Night"> Monday Night</label> <br>
+    #availabilityInputs {
+      display: flex;
+      flex-direction: column;
+    }
 
-            <input type = "checkbox" id = "Tuesday" name = "availability" value = "Tuesday Morning">
-            <label for = "Tuesday Morning"> Tuesday Morning</label>
-            <input type = "checkbox" id = "Tuesday" name = "availability" value = "Tuesday Night">
-            <label for = "Tuesday Night"> Tuesday Night</label> <br>
+    #timeDiv {
+      display: flex;
+      flex-direction: row;
+    }
+  </style>
+  <script>
 
-            <input type = "checkbox" id = "Wednesday" name = "availability" value = "Wednesday Morning">
-            <label for = "Wednesday Morning"> Wednesday Morning</label>
-            <input type = "checkbox" id = "Wednesday" name = "availability" value = "Wednesday Night">
-            <label for = "Wednesday Night"> Wednesday Night</label> <br>
+    function addMoreAvailabilities() {
+      var div = document.getElementById("availabilityInputs");
+      var timeDiv = document.createElement("div");
+      timeDiv.id = "timeDiv";
 
-            <input type = "checkbox" id = "Thursday" name = "availability" value = "Thursday Morning">
-            <label for = "Thursday Morning"> Thursday Morning</label>
-            <input type = "checkbox" id = "Thursday" name = "availability" value = "Thursday Night">
-            <label for = "Thursday Night"> Thursday Night</label> <br>
+      var start_label = document.createElement('label');
+      start_label.innerText = "Availability Start"
+      var start_time = document.createElement('input');
+      start_time.id = "meeting-time-start-time"
+      start_time.name = "availability-start-time"
+      start_time.min = "1999-01-01T00:00"
+      start_time.max = "2999-12-31T23:59"
+      start_time.type = "time"
+      timeDiv.appendChild(start_label);
+      timeDiv.appendChild(start_time);
 
-            <input type = "checkbox" id = "Friday" name = "availability" value = "Friday Morning">
-            <label for = "Friday Morning"> Friday Morning</label>
-            <input type = "checkbox" id = "Friday" name = "availability" value = "Friday Night">
-            <label for = "Friday Night"> Friday Night</label> <br>
 
-            <input type = "checkbox" id = "Saturday" name = "availability" value = "Saturday Morning">
-            <label for = "Saturday Morning"> Saturday Morning</label>
-            <input type = "checkbox" id = "Saturday" name = "availability" value = "Saturday Night">
-            <label for = "Saturday Night"> Saturday Night</label> <br>
+      var end_label = document.createElement('label');
+      end_label.innerText = "Availability End"
+      var end_time = document.createElement('input');
+      end_time.id = "meeting-time-end"
+      end_time.name = "availability-end-time"
+      end_time.min = "1999-01-01T00:00"
+      end_time.max = "2999-12-31T23:59"
+      end_time.type = "time"
+      timeDiv.appendChild(end_label);
+      timeDiv.appendChild(end_time);
 
-            <input type = "checkbox" id = "Sunday" name = "availability" value = "Sunday Morning">
-            <label for = "Sunday Morning"> Sunday Morning</label>
-            <input type = "checkbox" id = "Sunday" name = "availability" value = "Sunday Night">
-            <label for = "Sunday Night"> Sunday Night</label> <br> <br>
 
-            <input type = "submit" value = "SignUp" class = "submitBox">
-          </fieldset>
-        </form>
-        <br> <br>
-      </div>
-    </body>
+      var date_label = document.createElement('label');
+      date_label.innerText = "Availability Date"
+      var date = document.createElement('input');
+      date.id = "meeting-time-date"
+      date.name = "availability-date"
+      date.min = "1999-01-01"
+      date.max = "2999-12-31"
+      date.type = "date"
+      timeDiv.appendChild(date_label);
+      timeDiv.appendChild(date); 
+
+      div.appendChild(timeDiv);
+    }
+  </script>
+
+</head>
+
+<body>
+  <h1> Sign Up! </h1>
+  <div class="signupBox">
+    <form method="POST" action="/signup" onSubmit="return validateForm();">
+      <fieldset>
+        <legend> Sign Up </legend> <br>
+        <label for="name"> Name </label> <br>
+        <input type="text" name="firstName" placeholder="Enter your First name" class="inputBox"> <br>
+        <input type="text" name="lastName" placeholder="Enter your Last name" class="inputBox"> <br> <br>
+
+        <label for="email"> Email </label> <br>
+        <input type="email" name="email" placeholder="Enter your email" class="inputBox"> <br> <br>
+
+        <label> Availability </label> <br> <br>
+
+        <div id='availabilityInputs'>
+          <div id='timeDiv'>
+            <label> Availability Start</label>
+            <input type="time" id="meeting-time-start" name="availability-start-time" min="1999-01-01T00:00"
+              max="2999-12-31T23:59" placeholder = "00:00">
+            <label> Availability End</label>
+            <input type="time" id="meeting-time-end" name="availability-end-time" min="1999-01-01T00:00" max="2999-12-31T23:59" placeholder = "00:00">
+            <label> Availability Date</label>
+            <input type="date" id="meeting-time-date" name="availability-date" min="1999-01-01" max="2999-12-31" placeholder = "YYYY-MM-DD">
+          </div>
+        </div>
+
+        <input type="submit" value="SignUp" class="submitBox">
+      </fieldset>
+    </form>
+    <button onclick="addMoreAvailabilities()"> Add More Availability Times </button>
+    <br> <br>
+  </div>
+</body>
+
 </html>
