@@ -8,9 +8,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
   <style>
-
-
-    body{
+    body {
 
       font-family: "Arial";
       text-align: center;
@@ -21,7 +19,7 @@
       background-size: cover;
     }
 
-    .welcome{
+    .welcome {
       border: none;
       background-color: #FFFBF0;
       border-radius: 80%;
@@ -30,36 +28,36 @@
       height: 7%;
     }
 
-    .welcome h2{
+    .welcome h2 {
       padding: 1%;
     }
 
-    .logout{
+    .logout {
       position: absolute;
       top: 16px;
       right: 16px;
     }
 
 
-    .logoutButton{
+    .logoutButton {
       border-radius: 17px;
       background-color: #E1AB18;
     }
 
-    .logoutButton:hover{
+    .logoutButton:hover {
       background-color: #F0C95D;
     }
-    
-    label{
+
+    label {
       font-weight: bold;
       margin: 1%;
     }
-    
-    input{
+
+    input {
       margin: 1%;
     }
-    
-    .requestBox{
+
+    .requestBox {
       float: right;
       margin-right: 13%;
       margin-top: 10%;
@@ -67,8 +65,8 @@
       width: 15%;
     }
 
-    .calendar{
-      width: 43%;
+    #calendar {
+      width: 50%;
       float: left;
       margin-top: 2%;
       margin-left: 10%;
@@ -76,43 +74,57 @@
 
     }
   </style>
+
+
+  <script>
+    var received_availability = {{ availability_times | tojson | safe }}
+    document.addEventListener('DOMContentLoaded', function () {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'timeGridWeek',
+        selectable: true,
+        selectMirror: true,
+        dragScroll: true,
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'timeGridWeek,timeGridDay'
+        },
+        events: received_availability
+      });
+      calendar.render();
+    });
+  </script>
+
+
 </head>
 
 <body>
   <div>
-    <div class = "welcome"> <h2> Welcome, {{name}}</h2> </div>
+    <div class="welcome">
+      <h2> Welcome, {{name}}</h2>
+    </div>
 
     <form class="logout" action="/logout">
-      <input type="submit" value="LOGOUT" class = "logoutButton">
+      <input type="submit" value="LOGOUT" class="logoutButton">
     </form>
 
 
   </div>
   <div class="requestBox">
 
-      <h4> Availability </h4>
-        {% for days in availability %}
-            {{days}} <br>
-        {% endfor %} <br>
-        <b> <a href = "{{ url_for('changeAvailability')}}"> Edit Availability </a> </b>
-        <br> <br>
-    </div>
-
- 
-
-  <div class="calendar">
-    <div id="calendar"></div>
-    <script>
-      let calendarEl = document.getElementById
-        ('calendar');
-
-      let calendar = new FullCalendar.Calendar
-        (calendarEl, {});
-
-      calendar.render();
-    </script>
-
+    <h4> Availability </h4>
+    {% for days in availability %}
+    {{days}} <br>
+    {% endfor %} <br>
+    <b> <a href="{{ url_for('changeAvailability')}}"> Edit Availability </a> </b>
+    <br> <br>
   </div>
+
+
+
+  <div id="calendar"></div>
+
 
 
 </body>
