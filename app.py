@@ -256,26 +256,26 @@ def main():
     # )
 
     name = user_preference()
-    curr_user = Staff.query.filter_by(
-        employee_email=current_user.employee_email
-    ).first()
+    # curr_user = Staff.query.filter_by(
+    #     employee_email=current_user.employee_email
+    # ).first()
 
-    list = curr_user.employee_availability
-    list = str(list)[1:-1]
+    # list = curr_user.employee_availability
+    # list = str(list)[1:-1]
 
-    list = list.replace('"', '')
-    availability = list.split(',')
+    # list = list.replace('"', '')
+    # availability = list.split(',')
 
-    if curr_user.employee_email == "a10@a":
-        return flask.render_template(
-            "managerView.html"
-        )
+    # if curr_user.employee_email == "a10@a":
+    #     return flask.render_template(
+    #         "managerView.html"
+    #     )
 
 
     return flask.render_template(
         "staffView.html",
         name=name,
-        availability=availability,
+        #availability=availability,
     )
 
 
@@ -372,7 +372,7 @@ def pendingStaff():
 @app.route("/scheduling")
 def scheduling():
     my_date = datetime.date.today()
-    first_name_list, last_name_list, email_list, availability_list = getDB()
+    first_name_list, last_name_list, email_list = getDB()
     
     year, week_num, day_of_week = my_date.isocalendar()
     return render_template("scheduling.html" , week_num = week_num ,year =year ,first_name_list = first_name_list)
