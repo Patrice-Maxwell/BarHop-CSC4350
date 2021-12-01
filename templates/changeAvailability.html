@@ -51,7 +51,8 @@
 </head>
 
 <body>
-    <h1> Availability: </h1>
+    <h1> Edit Availability: </h1>
+    <div class = "availability"> 
     <form method="POST" action="/changeAvailability" onSubmit="return validateForm();">
         <fieldset>
             <label> Availability </label> <br> <br>
@@ -73,9 +74,9 @@
             <input type="submit" value="Submit" class="submitBox">
         </fieldset>
     </form>
-    <button onclick="addMoreAvailabilities()"> Add More Availability Times </button>
+    <button onclick="addMoreAvailabilities()" class = "submitBox"> Add More Availability Times </button>
     <br> <br>
-    </form>
+</div>
 </body>
 
 </html>
