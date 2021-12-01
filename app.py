@@ -313,7 +313,8 @@ def changeAvailability():
 @app.route("/managerView")
 def managerView():
     return flask.render_template(
-        "managerView.html"
+        "managerView.html",
+        name = "Manager_Login"
     )
 
 # function used for testing, check if email is in the database or not
@@ -410,4 +411,6 @@ def shiftChange():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 8080)), debug=True)
+    app.run(
+        # host="0.0.0.0", port=int(os.getenv("PORT", 8080)), 
+        debug=True)
