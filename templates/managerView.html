@@ -2,106 +2,125 @@
 
 <head>
   <title> Manager Main View </title>
-  <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width = device-width, initial-scale=1.0">
-  <title>Document</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
-  <style>
-    body {
 
-      font-family: "Arial";
-      text-align: center;
-      margin: 2%;
-      color: black;
+  <style> 
+    body{
+    font-family: "Arial";
+    text-align: center;
+    margin: 2%;
+    color: black;
+    background-image: url("/static/bg2.jpg");
+    background-size: cover;
+  }
 
-      background-image: url("/static/bg2.jpg");
-      background-size: cover;
-    }
+  .title{
+    margin-left: 41%;
+    margin-top: 6%;
+    width: 20%;
+  }
 
-    .welcome {
-      border: none;
-      background-color: #FFFBF0;
-      border-radius: 80%;
-      width: 40%;
-      margin-left: 30%;
-      height: 7%;
-    }
+  .welcome{
+    border: none;
+    background-color: white;
+    border-radius: 80%;
+    width: 40%;
+    margin-left: 30%;
+    height: 7%;
+  }
 
-    .welcome h2 {
-      padding: 1%;
-    }
+  .welcome h2{
+    padding: 1%;
+  }
 
-    .logout {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-    }
+  .logout{
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
 
+  .logoutButton{
+    border-radius: 17px;
+    background-color: #E1AB18;
+  }
 
-    .logoutButton {
-      border-radius: 17px;
-      background-color: #E1AB18;
-    }
+  .logoutButton:hover{
+    background-color: #F0C95D;
+  }
 
-    .logoutButton:hover {
-      background-color: #F0C95D;
-    }
+  input{
+    margin: 1%;
+  }
 
-    label {
-      font-weight: bold;
-      margin: 1%;
-    }
-
-    input {
-      margin: 1%;
-    }
-
-    .requestBox {
-      float: right;
-      margin-right: 13%;
-      margin-top: 10%;
-      background-color: #FFFBF0;
-      width: 15%;
-    }
-
-    #calendar {
-      width: 50%;
+  .calendar{
+      width: 43%;
       float: left;
       margin-top: 2%;
       margin-left: 10%;
       background-color: white;
+  }
 
-    }
+  .navigation{
+    right: 6%;
+    top: 45%;
+    position: fixed;
+  }
+
+  .navigation ul{
+    list-style-type: none;
+  }
+
+  .navigation li{
+    border: solid #E1AB18;
+    margin: 3%;
+    background-color: #E1AB18;
+    color: white;
+    padding: 5%;
+  }
+
+  .navigation a:link, a:visited{
+    color: black;
+    text-decoration: none;
+  }
+
+  .navigation li:hover{
+    background-color: #F0C95D;
+  }
+
   </style>
-
-
 </head>
 
 
 <body>
   <div>
-    <h2> Welcome, {{name}} </h2>
+    <div class = "welcome"> <h2> Welcome, {{name}} </h2> </div>
     <form class="logout" action="/logout">
       <input type="submit" value="LOGOUT" class="logoutButton">
     </form>
   </div>
-  <div class="calendar">
-    <h3> November </h3>
-    <div class="inCalendar">
-      <h3> Calendar </h3>
 
-    </div>
-  </div>
+  <div class="calendar">
+    <div id="calendar"></div>
+    <script>
+      let calendarEl = document.getElementById
+        ('calendar');
+
+      let calendar = new FullCalendar.Calendar
+        (calendarEl, {});
+
+      calendar.render();
+    </script>
 
 
   <div class="navigation">
     <ul>
       <li> <a href="{{ url_for('managerView') }}"> Main </a> </li>
       <li> <a href="{{ url_for('staffInfo') }}"> Staff Information </a> </li>
-      <li> <a href="{{ url_for('scheduling') }}"> Scheduling </a> </li>
+      <!-- <li> <a href="{{ url_for('scheduling') }}"> Scheduling </a> </li> -->
       <li> <a href="{{ url_for('shiftChange') }}"> Shift Change Requests </a> </li>
 
   </div>

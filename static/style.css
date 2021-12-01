@@ -238,3 +238,8 @@ th ,td ,tr{
 table{
   width: fit-content;
 }
+
+.availability form{
+  width: 80%;
+  margin-left: 10%;
+}
