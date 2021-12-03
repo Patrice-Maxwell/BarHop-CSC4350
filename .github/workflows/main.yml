@@ -49,6 +49,10 @@ jobs:
       - name: Installing flask-sqlalchemy
         run: pip3 install flask-sqlalchemy
         
+      # Install psycopg2
+      - name: Installing psycopg2
+        run: pip install psycopg2
+        
       # Runs unittest for python files
       - name: Run test
         run: python -m barhop_test
