@@ -33,6 +33,10 @@ jobs:
       - name: Lint files
         run: find . -name '*.py' -exec pylint {} \;
 
+      # Instll dotenv
+      - name: Installing dotenv
+        run: python -m pip install python-dotenv
+        
       # Runs unittest for python files
       - name: Run test
         run: python -m unittest
