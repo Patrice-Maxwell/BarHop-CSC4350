@@ -35,4 +35,4 @@ jobs:
 
       # Runs unittest for python files
       - name: Run test
-        run: python -m unittest
+        run: python -m barhop_test
