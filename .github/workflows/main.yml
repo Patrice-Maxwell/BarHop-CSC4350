@@ -36,6 +36,10 @@ jobs:
       #Install flask
       - name: Installing flask
         run: pip install flask
+      
+      #Install flask login
+      - name: Installing flask login
+        run: pip install flask_login
         
       # Install dotenv
       - name: Installing dotenv
