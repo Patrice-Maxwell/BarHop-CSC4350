@@ -33,11 +33,11 @@ jobs:
       - name: Lint files
         run: find . -name '*.py' -exec pylint {} \;
         
-      #Install flask
+      # Install flask
       - name: Installing flask
         run: pip install flask
       
-      #Install flask login
+      # Install flask login
       - name: Installing flask login
         run: pip install flask_login
         
@@ -45,6 +45,10 @@ jobs:
       - name: Installing dotenv
         run: python -m pip install python-dotenv
       
+      # Install flask-sqlalchemy
+      - name: Installing flask-sqlalchemy
+        run: pip3 install flask-sqlalchemy
+        
       # Runs unittest for python files
       - name: Run test
         run: python -m barhop_test
