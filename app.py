@@ -87,7 +87,6 @@ def getDB():
         password_list,
     )
 
-
 @app.route("/", methods=["GET", "POST"])
 def index():
 
@@ -107,20 +106,26 @@ login_manager.init_app(app)
 def load_user(task_id):
     return Staff.query.get(task_id)
 
-
 def email_format(email):
     email = email.lower()
     return email
-
 
 def logger(user):
     login_user(user)
     return user
 
+def displayMessage(type):
+    if type == "No email":
+        error = "No email entered , please sign in!"
+    elif type == "Invalid Login":
+        error = "Invalid login. Please sign up!"
+    elif type == "Signup":
+        error = "Error. Please try again!"
+    else:
+        error = "Unknown error!"
+    return error
 
 # function for login
-
-
 @app.route("/login", methods=["POST"])
 def login_post():
     employee_email = flask.request.form["email"]
@@ -153,12 +158,12 @@ def login_post():
     if employee_email == "":
         return render_template(
             "login.html",
-            error="No email entered , please sign in!",
+            error=displayMessage("No email"),
         )
     else:
         return render_template(
             "login.html",
-            error="Invalid login or password. Please sign up!",
+            error=displayMessage("Invalid Login"),
         )
 
 
@@ -217,11 +222,12 @@ def signup():
             db.session.add(new_employee)
             db.session.commit()
             return flask.redirect("/")
+        else:
+            return flask.render_template("signup.html", error = displayMessage("Signup"))
     return flask.render_template("signup.html")
 
 
 def user_preference():
-
     curr_user = Staff.query.filter_by(
         employee_email=current_user.employee_email
     ).first()
@@ -321,34 +327,6 @@ def managerView():
         "managerView.html", name="Manager_Login", availability_times=data
     )
 
-
-# function used for testing, check if email is in the database or not
-def checkEmail(input_email):
-    first_name_list, last_name_list, email_list, availability_list = getDB()
-
-    for item in email_list:
-        print(item)
-        if input_email == item:
-            return True
-    return False
-
-
-# function used for testsing, returns first name of employee based on email
-def checkName(input_email):
-    user = Staff.query.filter_by(employee_email=input_email).first()
-    first_name = user.employee_first_name
-    return first_name
-
-
-# function used for testing, return the availability for the chosen user
-def returnAvailability(input_email):
-
-    user = Staff.query.filter_by(employee_email=input_email).first()
-    availability = user.employee_availability
-
-    return availability
-
-
 # function to load staffInfo page used with manager user for sprint 2
 @app.route("/staffInfo", methods=["GET", "POST"])
 def staffInfo():
@@ -394,12 +372,6 @@ def logout():
     logout_user()
     return flask.redirect("/")
 
-
-@app.route("/pendingStaff")
-def pendingStaff():
-    return flask.render_template("pendingStaff.html")
-
-
 @app.route("/scheduling")
 def scheduling():
     my_date = datetime.date.today()
@@ -410,15 +382,32 @@ def scheduling():
         "scheduling.html", week_num=week_num, year=year, first_name_list=first_name_list
     )
 
-
 @app.route("/shiftChange")
 def shiftChange():
     return flask.render_template("shiftChange.html")
 
+# function used for testing, check if email is in the database or not
+def checkEmail(input_email):
+    first_name_list, last_name_list, email_list, availability_list = getDB()
+    for item in email_list:
+        if input_email == item:
+            return True
+    return False
+
+# function used for testsing, rcheck if the names are in the database or not
+def checkNames(input_firstName, input_lastName):
+    first_name_list, last_name_list, email_list, availability_list = getDB()
+    statusF = False
+    statusN = False
+    for name in first_name_list:
+        if input_firstName == name:
+            statusF = True
+    for name in last_name_list:
+        if input_lastName == name:
+            statusN = True
+    if statusF == statusN:
+        return True
+    return False
 
 if __name__ == "__main__":
-
-    app.run(
-        # host="0.0.0.0", port=int(os.getenv("PORT", 8080)),
-        debug=True
-    )
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 8080)), debug=True)
