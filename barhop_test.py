@@ -23,7 +23,7 @@ class BarhopMockedTestCase(unittest.TestCase):
                 employee_first_name = "Test", 
                 employee_last_name = "Ttest",
                 employee_email = "test@tests.com", 
-                employee_availability = "NEVER"
+                employee_availability = "NEVER",
                 employee_password = "")
         ]
     def get_mocked_db_entries(self):
