@@ -23,7 +23,8 @@ class BarhopMockedTestCase(unittest.TestCase):
                 employee_first_name = "Test", 
                 employee_last_name = "Ttest",
                 employee_email = "test@tests.com", 
-                employee_availability = "NEVER")
+                employee_availability = "NEVER"
+                employee_password = "")
         ]
     def get_mocked_db_entries(self):
             return self.mock_db_entries
@@ -38,11 +39,12 @@ class BarhopMockedTestCase(unittest.TestCase):
             expected_last_name.append(item.employee_last_name)
             expected_email.append(item.employee_email)
             expected_availability.append(item.employee_availability)
+            expected_password.append(item.employee_password)
         
         with patch ("app.Staff.query") as mocked_query:
             mocked_query.all = self.get_mocked_db_entries
             employees = getDB()
-            self.assertEqual(employees, (expected_first_name, expected_last_name, expected_email, expected_availability))
+            self.assertEqual(employees, (expected_first_name, expected_last_name, expected_email, expected_availability, expected_password))
 
     def test_checkEmail(self):
         expected_email = []
@@ -67,9 +69,6 @@ class BarhopMockedTestCase(unittest.TestCase):
             mocked_query.all = self.get_mocked_db_entries
             name = checkNames(expected_first_name[0], expected_last_name[0])
             self.assertEqual(name, True)
-    
-    # def notError(self):
-    #     return "Invalid login. Please sign up!"
 
     # def test_already_User(self):
     #     with patch("app.already_User().flask.request.form") as mock:
