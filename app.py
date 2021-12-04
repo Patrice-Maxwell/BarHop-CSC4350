@@ -382,6 +382,7 @@ def scheduling():
         "scheduling.html", week_num=week_num, year=year, first_name_list=first_name_list
     )
 
+
 @app.route("/shiftChange")
 def shiftChange():
     return flask.render_template("shiftChange.html")
