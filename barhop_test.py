@@ -34,6 +34,7 @@ class BarhopMockedTestCase(unittest.TestCase):
         expected_last_name = []
         expected_email = []
         expected_availability = []
+        expected_password = []
         for item in self.mock_db_entries:
             expected_first_name.append(item.employee_first_name)
             expected_last_name.append(item.employee_last_name)
