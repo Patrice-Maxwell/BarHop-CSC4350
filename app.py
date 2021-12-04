@@ -18,8 +18,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = flask.Flask(__name__)
 app.config[
-    'SQLALCHEMY_DATABASE_URI'
-] = 'postgresql://jfrudxnfhgiarz:37dbab76396127b98a5e05f2ce6ffa61dc24e9c9f7b9857273f0db644acff864@ec2-34-199-224-49.compute-1.amazonaws.com:5432/d5ciau5h4uuf4i'
+    "SQLALCHEMY_DATABASE_URI"
+] = "postgresql://jfrudxnfhgiarz:37dbab76396127b98a5e05f2ce6ffa61dc24e9c9f7b9857273f0db644acff864@ec2-34-199-224-49.compute-1.amazonaws.com:5432/d5ciau5h4uuf4i"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 app.secret_key = b"os.getenv('APP_SECRET_KEY')"
@@ -33,7 +33,7 @@ class Staff(db.Model, UserMixin):
     employee_last_name = db.Column(db.String(120), nullable=False)
     employee_email = db.Column(db.String(180), nullable=False)
     employee_availability = db.Column(db.String(65535), nullable=True)
-
+    employee_password = db.Column(db.String(180), nullable=False)
 
     def get_id(self):
         return self.task_id
@@ -70,18 +70,21 @@ def getDB():
     last_name_list = []
     email_list = []
     availability_list = []
-    
+    password_list = []
+
     for item in items:
         first_name_list.append(item.employee_first_name)
         last_name_list.append(item.employee_last_name)
         email_list.append(item.employee_email)
         availability_list.append(item.employee_availability)
+        password_list.append(item.employee_password)
 
     return (
         first_name_list,
         last_name_list,
         email_list,
-        availability_list
+        availability_list,
+        password_list,
     )
 
 @app.route("/", methods=["GET", "POST"])
@@ -105,12 +108,10 @@ def load_user(task_id):
 
 def email_format(email):
     email = email.lower()
-    print(email)
     return email
 
 def logger(user):
     login_user(user)
-    print(user)
     return user
 
 def displayMessage(type):
@@ -129,19 +130,30 @@ def displayMessage(type):
 def login_post():
     employee_email = flask.request.form["email"]
     employee_email = email_format(employee_email)
+    employee_password = flask.request.form["password"]
+
+    # See what user is,
     user = Staff.query.filter_by(employee_email=employee_email).first()
+
     management = Manager.query.filter_by(manager_email=employee_email).first()
     error = None
 
     if user:
+        user_password = user.employee_password
         logger(user)
-        return flask.redirect(flask.url_for("index"))
+        if user_password == employee_password:
+            return flask.redirect(flask.url_for("index"))
+        else:
+            return render_template(
+                "login.html",
+                error="Invalid login or password. Please sign up!",
+            )
 
     if management:
         # User session will be started for management
         logger(management)
         name = management.manager_name
-        return flask.render_template("managerView.html", name=name)
+        return flask.redirect(flask.url_for("managerView"))
 
     if employee_email == "":
         return render_template(
@@ -155,40 +167,37 @@ def login_post():
         )
 
 
-def already_User(first_name_list, last_name_list, email_list):
+def already_User(first_name_list, last_name_list, email_list, password_list):
     alreadyUser = False
     input_firstName = flask.request.form.get("firstName")
     input_lastName = flask.request.form.get("lastName")
     input_email = flask.request.form.get("email")
+    input_password = flask.request.form.get("password")
 
-    # input_password = flask.request.form.get("password")
-
-    for firstName in first_name_list:
-        if firstName == input_firstName:
-            alreadyUser = True
-    for lastName in last_name_list:
-        if lastName == input_lastName:
-            alreadyUser = True
     for email in email_list:
         if email == input_email:
             alreadyUser = True
-
-    # for password in password_list:
-
-    #     if (password == input_password):
-    #         alreadyUser = True
-
-    return (input_firstName, input_lastName, input_email, alreadyUser)
+    return (input_firstName, input_lastName, input_email, input_password, alreadyUser)
 
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if flask.request.method == "POST":
-        first_name_list, last_name_list, email_list , availability_list= getDB()
+        (
+            first_name_list,
+            last_name_list,
+            email_list,
+            password_list,
+            availability_list,
+        ) = getDB()
 
-        input_firstName, input_lastName, input_email, alreadyUser = already_User(
-            first_name_list, last_name_list, email_list 
-        )
+        (
+            input_firstName,
+            input_lastName,
+            input_email,
+            input_password,
+            alreadyUser,
+        ) = already_User(first_name_list, last_name_list, email_list, password_list)
 
         input_availability_start_time = flask.request.form.getlist(
             "availability-start-time"
@@ -207,9 +216,8 @@ def signup():
                 employee_first_name=input_firstName,
                 employee_last_name=input_lastName,
                 employee_email=input_email,
-
+                employee_password=input_password,
                 employee_availability="#".join(availabilities),
-
             )
             db.session.add(new_employee)
             db.session.commit()
@@ -232,38 +240,15 @@ def user_preference():
 @login_required
 def main():
 
-    # first_name_list, last_name_list, email_list, availability_list = getDB()
-    # availability = []
     curr_user = Staff.query.filter_by(
-         employee_email=current_user.employee_email
-     ).first()
+        employee_email=current_user.employee_email
+    ).first()
 
-    # name = curr_user.employee_first_name
-    # list = name.employee_availability
-    # list = str(list)[1:-1]
-    # list = list.replacwe('"', "")
-    # availability = list.split(",")
-
-    # length = len(first_name_list)
-
-    # return flask.render_template(
-    #    "staffView.html",
-    # name=name,
-    # length=length,
-    # first_name_list=first_name_list,
-    # last_name_list=last_name_list,
-    # availability=availability,
-    # )
-
+    all_users = Staff.query.all()
     name = user_preference()
-    # curr_user = Staff.query.filter_by(
-    #     employee_email=current_user.employee_email
-    # ).first()
-
 
     data = []
     availability = curr_user.employee_availability
-    print(availability)
     availability_list = availability.split("#")
     for avail in availability_list:
         split_date = avail.split("_")
@@ -279,11 +264,9 @@ def main():
     if curr_user.employee_email == "a10@a":
         return flask.render_template("managerView.html")
 
-
     return flask.render_template(
         "staffView.html",
         name=name,
-
         availability=availability_list,
         availability_times=data,
     )
@@ -316,18 +299,39 @@ def changeAvailability():
 
     return flask.render_template("changeAvailability.html")
 
+
 @app.route("/managerView")
 def managerView():
+    all_users = Staff.query.all()
+    data = []
+
+    for user in all_users:
+        availability_list = user.employee_availability.split("#")
+        availability_list = list(
+            filter(lambda availability: availability != "__", availability_list)
+        )
+        for avail in availability_list:
+            split_date = avail.split("_")
+            start = f"{split_date[0]}T{split_date[1]}"
+            end = f"{split_date[0]}T{split_date[2]}"
+            data.append(
+                {
+                    "start": start,
+                    "end": end,
+                    "allDay": False,
+                    "title": f"{user.employee_first_name} {user.employee_last_name}",
+                }
+            )
+
     return flask.render_template(
-        "managerView.html",
-        name = "Manager_Login"
+        "managerView.html", name="Manager_Login", availability_times=data
     )
 
 # function to load staffInfo page used with manager user for sprint 2
 @app.route("/staffInfo", methods=["GET", "POST"])
 def staffInfo():
     if flask.request.method == "POST":
-        first_name_list, last_name_list, email_list, availability_list = getDB()
+        first_name_list, last_name_list, email_list, availability_list, password_list = getDB()
         chosen_Staff = flask.request.form.get("staffList")
 
         for email in email_list:
@@ -336,7 +340,7 @@ def staffInfo():
                 db.session.delete(deleteStaff)
                 db.session.commit()
 
-    first_name_list, last_name_list, email_list, availability_list = getDB()
+    first_name_list, last_name_list, email_list, availability_list, password_list = getDB()
     length = len(first_name_list)
 
     return flask.render_template(
@@ -371,10 +375,13 @@ def logout():
 @app.route("/scheduling")
 def scheduling():
     my_date = datetime.date.today()
-    first_name_list, last_name_list, email_list , availability_list = getDB()
-    
+    first_name_list, last_name_list, email_list, availability_list = getDB()
+
     year, week_num, day_of_week = my_date.isocalendar()
-    return render_template("scheduling.html" , week_num = week_num ,year =year ,first_name_list = first_name_list)
+    return render_template(
+        "scheduling.html", week_num=week_num, year=year, first_name_list=first_name_list
+    )
+
 
 @app.route("/shiftChange")
 def shiftChange():

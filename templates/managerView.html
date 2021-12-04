@@ -95,6 +95,27 @@
 </head>
 
 
+
+<script>
+  var received_availability = {{ availability_times | tojson | safe }}
+  document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'timeGridWeek',
+      selectable: true,
+      selectMirror: true,
+      dragScroll: true,
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'timeGridWeek,timeGridDay'
+      },
+      events: received_availability
+    });
+    calendar.render();
+  });
+</script>
+
 <body>
   <div>
     <div class = "welcome"> <h2> Welcome, {{name}} </h2> </div>
@@ -104,16 +125,9 @@
   </div>
 
   <div class="calendar">
-    <div id="calendar"></div>
-    <script>
-      let calendarEl = document.getElementById
-        ('calendar');
+    <div id="calendar">
 
-      let calendar = new FullCalendar.Calendar
-        (calendarEl, {});
-
-      calendar.render();
-    </script>
+    </div>
 
 
   <div class="navigation">

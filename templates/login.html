@@ -11,6 +11,7 @@
   </style>
 </head>
 
+  
 <body>
   <div class="title">
     <h1> BarHop </h1>
@@ -21,6 +22,8 @@
         <legend> Log In</legend> <br>
         <label for="email"> Email </label> <br>
         <input type="email" name="email" placeholder="Enter your email" class="inputBox"> <br> <br>
+        <label for="password"> Password </label> <br>
+        <input type="password" name="password" placeholder="Enter your password" class="inputBox"> <br> <br>
         <input type="submit" value="LogIn" class="submitBox"> <br> <br>
 
         <a href="{{ url_for('signup') }}"> Don't have an account yet? </a>
