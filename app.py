@@ -389,7 +389,7 @@ def shiftChange():
 
 # function used for testing, check if email is in the database or not
 def checkEmail(input_email):
-    first_name_list, last_name_list, email_list, availability_list = getDB()
+    first_name_list, last_name_list, email_list, availability_list, password_list = getDB()
     for item in email_list:
         if input_email == item:
             return True
