@@ -397,7 +397,7 @@ def checkEmail(input_email):
 
 # function used for testsing, rcheck if the names are in the database or not
 def checkNames(input_firstName, input_lastName):
-    first_name_list, last_name_list, email_list, availability_list = getDB()
+    first_name_list, last_name_list, email_list, availability_list, password_list = getDB()
     statusF = False
     statusN = False
     for name in first_name_list:
